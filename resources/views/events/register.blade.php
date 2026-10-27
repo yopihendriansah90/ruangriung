@@ -2,13 +2,13 @@
 
 @section('content')
 <section class="mx-auto max-w-xl px-4 py-8 pb-12 sm:px-6 lg:py-12">
-    <a href="{{ route('events.show', $event) }}" class="inline-flex items-center gap-2 text-sm text-[#5d7d86] transition hover:text-[#159b83]"><x-heroicon-o-arrow-left class="h-4 w-4" /> Kembali ke detail event</a>
+    <a href="{{ route('events.show', $event) }}" class="inline-flex items-center gap-2 text-sm text-[#5d7d86] transition hover:text-[#147eaf]"><x-heroicon-o-arrow-left class="h-4 w-4" /> Kembali ke detail event</a>
 
-    <div class="mt-6 rounded-3xl border border-[#d7eee8] bg-white p-6 shadow-sm sm:p-8">
-        <div class="flex items-start gap-3 border-b border-[#d7eee8] pb-5">
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#e8f8f3] text-[#159b83]"><x-heroicon-o-user class="h-6 w-6" /></span>
+    <div class="mt-6 rounded-3xl border border-[#d5eaf5] bg-white p-6 shadow-sm sm:p-8">
+        <div class="flex items-start gap-3 border-b border-[#d5eaf5] pb-5">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#e8f6fd] text-[#147eaf]"><x-heroicon-o-user class="h-6 w-6" /></span>
             <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#159b83]">Pendaftaran peserta</p>
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#147eaf]">Pendaftaran peserta</p>
                 <h2 class="mt-1 text-2xl font-bold leading-tight text-[#104b68]">Daftar event</h2>
                 <p class="mt-1 text-sm text-[#5d7d86]">{{ $event->name }}</p>
             </div>
@@ -31,9 +31,9 @@
                 <div><label class="field-label" for="organization">Asal komunitas/instansi</label><input class="field-input" id="organization" name="organization" value="{{ old('organization') }}"></div>
                 <div><label class="field-label" for="notes">Catatan tambahan</label><textarea class="field-input" id="notes" name="notes" rows="3">{{ old('notes') }}</textarea></div>
                 <div><label class="field-label" for="referral_source">Tahu event ini dari</label><select class="field-input" id="referral_source" name="referral_source"><option value="">Pilih sumber</option><option @selected(old('referral_source') === 'Instagram')>Instagram</option><option @selected(old('referral_source') === 'WhatsApp')>WhatsApp</option><option @selected(old('referral_source') === 'Teman')>Teman</option><option @selected(old('referral_source') === 'Komunitas')>Komunitas</option><option @selected(old('referral_source') === 'Lainnya')>Lainnya</option></select></div>
-                <label class="flex gap-3 text-sm leading-5 text-[#356b78]"><input class="mt-1 accent-[#159b83]" type="checkbox" name="data_consent" value="1" @checked(old('data_consent')) required><span>Saya menyetujui data digunakan untuk pendaftaran, komunikasi event, dan absensi.</span></label>
+                <label class="flex gap-3 text-sm leading-5 text-[#356b78]"><input class="mt-1 accent-[#147eaf]" type="checkbox" name="data_consent" value="1" @checked(old('data_consent')) required><span>Saya menyetujui data digunakan untuk pendaftaran, komunikasi event, dan absensi.</span></label>
                 @error('data_consent')<p class="field-error">{{ $message }}</p>@enderror
-                <button class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#159b83] px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-[#0f826f]" type="submit"><x-heroicon-o-arrow-right class="h-5 w-5" /> Kirim pendaftaran</button>
+                <button class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#65c6f1] px-5 py-3 font-semibold text-[#104b68] shadow-sm transition hover:bg-[#46b4e5]" type="submit"><x-heroicon-o-arrow-right class="h-5 w-5" /> Kirim pendaftaran</button>
             </form>
         @endif
     </div>

@@ -39,7 +39,7 @@ class WhatsAppInvitationUrlService
         $lines = [
             'Halo '.$registration->name.',',
             '',
-            'Terima kasih sudah mendaftar event MHC.',
+            'Terima kasih sudah mendaftar event Ruang Riung.',
             '',
             'Event: '.$event->name,
             'Tanggal: '.$event->event_date->translatedFormat('d F Y'),

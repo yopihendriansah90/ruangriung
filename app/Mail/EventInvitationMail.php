@@ -28,9 +28,9 @@ class EventInvitationMail extends Mailable
     public function __construct(public Registration $registration)
     {
         $this->qrCode = app(RegistrationQrCodeService::class)->generate($registration);
-        $this->qrCodeCid = 'qr-code-'.$registration->registration_code.'@mhc.local';
-        $this->logo = file_get_contents(base_path('docs/logomhc.jpg'));
-        $this->logoCid = 'mhc-logo@mhc.local';
+        $this->qrCodeCid = 'qr-code-'.$registration->registration_code.'@ruangriung.local';
+        $this->logo = file_get_contents(public_path('images/ruang-riung-icon.png'));
+        $this->logoCid = 'ruang-riung-logo@ruangriung.local';
     }
 
     public function envelope(): Envelope
@@ -60,7 +60,7 @@ class EventInvitationMail extends Mailable
                     ->setContentId($this->qrCodeCid),
             );
             $message->addPart(
-                (new DataPart($this->logo, 'mhc-logo.jpg', 'image/jpeg'))
+                (new DataPart($this->logo, 'ruang-riung-logo.png', 'image/png'))
                     ->asInline()
                     ->setContentId($this->logoCid),
             );

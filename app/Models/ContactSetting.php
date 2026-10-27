@@ -15,7 +15,7 @@ class ContactSetting extends Model
     {
         return self::query()->firstOrCreate(
             ['id' => 1],
-            ['admin_name' => 'Admin MHC'],
+            ['admin_name' => 'Admin Ruang Riung'],
         );
     }
 }

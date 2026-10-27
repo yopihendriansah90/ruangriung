@@ -30,8 +30,11 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName(config('app.name'))
+            ->brandLogo(asset('images/ruang-riung-logo.png'))
+            ->brandLogoHeight('5rem')
+            ->favicon(asset('images/ruang-riung-icon.png'))
             ->colors([
-                'primary' => Color::hex('#159b83'),
+                'primary' => Color::hex('#65c6f1'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')

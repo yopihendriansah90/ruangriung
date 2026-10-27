@@ -42,7 +42,7 @@ class EditContactSetting extends Page
                     ->schema([
                         TextInput::make('admin_name')
                             ->label('Nama admin')
-                            ->placeholder('Admin MHC')
+                            ->placeholder('Admin Ruang Riung')
                             ->maxLength(255),
                         TextInput::make('admin_whatsapp_number')
                             ->label('Nomor WhatsApp admin')

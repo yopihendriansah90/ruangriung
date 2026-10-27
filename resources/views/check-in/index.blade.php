@@ -4,16 +4,16 @@
 <section class="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
     <div class="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
-            <a href="{{ url('/admin') }}" class="inline-flex items-center gap-2 text-sm font-medium text-[#5d7d86] transition hover:text-[#159b83]">
+            <a href="{{ url('/admin') }}" class="inline-flex items-center gap-2 text-sm font-medium text-[#5d7d86] transition hover:text-[#147eaf]">
                 <x-heroicon-o-arrow-left class="h-4 w-4" />
                 Kembali ke dashboard
             </a>
-            <p class="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-[#159b83]">Admin check-in</p>
+            <p class="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-[#147eaf]">Admin check-in</p>
             <h1 class="mt-2 text-2xl font-bold leading-tight text-[#104b68] sm:text-3xl">Scan QR Code peserta</h1>
             <p class="mt-2 max-w-xl text-sm leading-6 text-[#5d7d86]">Arahkan kamera ke QR Code pada undangan peserta untuk mencatat kehadiran.</p>
         </div>
-        <div class="inline-flex w-fit items-center gap-2 rounded-full border border-[#cceae4] bg-white px-4 py-2 text-xs font-semibold text-[#3f7183] shadow-sm">
-            <span class="h-2 w-2 rounded-full bg-[#159b83]"></span>
+        <div class="inline-flex w-fit items-center gap-2 rounded-full border border-[#cce8f6] bg-white px-4 py-2 text-xs font-semibold text-[#3f7183] shadow-sm">
+            <span class="h-2 w-2 rounded-full bg-[#65c6f1]"></span>
             Petugas: {{ auth()->user()->name }}
         </div>
     </div>
@@ -21,13 +21,13 @@
     <div id="scan-status" class="mb-5 hidden rounded-2xl border p-4 text-sm" role="status" aria-live="polite"></div>
 
     <div class="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] lg:items-start">
-        <div class="rounded-3xl border border-[#d7eee8] bg-white p-4 shadow-sm sm:p-6">
+        <div class="rounded-3xl border border-[#d5eaf5] bg-white p-4 shadow-sm sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-3">
                 <div>
                     <h2 class="text-lg font-bold text-[#104b68]">Scanner kamera</h2>
                     <p id="camera-status" class="mt-1 text-xs text-[#7a9a9d]">Kamera belum dimulai.</p>
                 </div>
-                <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9f8f5] text-[#159b83]">
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9f7fe] text-[#147eaf]">
                     <x-heroicon-o-qr-code class="h-5 w-5" />
                 </span>
             </div>
@@ -35,20 +35,20 @@
             <div class="relative overflow-hidden rounded-2xl bg-[#102f3d] p-2 sm:p-3">
                 <div id="reader" class="min-h-[280px] overflow-hidden rounded-xl bg-[#0c2632] sm:min-h-[380px]"></div>
                 <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
-                    <div class="h-48 w-48 rounded-2xl border-2 border-[#72d8c5] shadow-[0_0_0_999px_rgba(8,35,47,0.3)] sm:h-64 sm:w-64"></div>
+                    <div class="h-48 w-48 rounded-2xl border-2 border-[#65c6f1] shadow-[0_0_0_999px_rgba(8,35,47,0.3)] sm:h-64 sm:w-64"></div>
                 </div>
             </div>
 
             <div class="mt-4 flex flex-col gap-3 sm:flex-row">
-                <button id="start-camera" type="button" class="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#159b83] px-4 text-sm font-bold text-white shadow-sm transition hover:bg-[#0f826f] disabled:cursor-not-allowed disabled:opacity-50">
+                <button id="start-camera" type="button" class="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#65c6f1] px-4 text-sm font-bold text-[#104b68] shadow-sm transition hover:bg-[#46b4e5] disabled:cursor-not-allowed disabled:opacity-50">
                     <x-heroicon-o-camera class="h-5 w-5" />
                     Mulai kamera
                 </button>
-                <button id="switch-camera" type="button" class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#cceae4] bg-white px-4 text-sm font-bold text-[#104b68] transition hover:bg-[#f1faf8] disabled:cursor-not-allowed disabled:opacity-50" disabled>
+                <button id="switch-camera" type="button" class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#cce8f6] bg-white px-4 text-sm font-bold text-[#104b68] transition hover:bg-[#f0f9ff] disabled:cursor-not-allowed disabled:opacity-50" disabled>
                     <x-heroicon-o-arrow-path class="h-5 w-5" />
                     <span data-camera-label>Ganti kamera</span>
                 </button>
-                <button id="stop-camera" type="button" class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#cceae4] bg-white px-4 text-sm font-bold text-[#104b68] transition hover:bg-[#f1faf8] disabled:cursor-not-allowed disabled:opacity-50" disabled>
+                <button id="stop-camera" type="button" class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#cce8f6] bg-white px-4 text-sm font-bold text-[#104b68] transition hover:bg-[#f0f9ff] disabled:cursor-not-allowed disabled:opacity-50" disabled>
                     <x-heroicon-o-x-mark class="h-5 w-5" />
                     Hentikan
                 </button>
@@ -57,9 +57,9 @@
         </div>
 
         <div class="space-y-5">
-            <div class="rounded-3xl border border-[#d7eee8] bg-white p-5 shadow-sm sm:p-6">
+            <div class="rounded-3xl border border-[#d5eaf5] bg-white p-5 shadow-sm sm:p-6">
                 <div class="flex items-start gap-3">
-                    <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#e9f8f5] text-[#159b83]">
+                    <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#e9f7fe] text-[#147eaf]">
                         <x-heroicon-o-qr-code class="h-5 w-5" />
                     </span>
                     <div>
@@ -70,7 +70,7 @@
                 <form id="manual-form" class="mt-5 space-y-3" method="POST" action="{{ route('check-in.store') }}">
                     @csrf
                     <label for="code" class="block text-xs font-bold uppercase tracking-[0.14em] text-[#3f7183]">Kode registrasi</label>
-                    <input id="code" class="field-input min-h-12 w-full" name="code" placeholder="MHC-XXXXXXXXXX" autocomplete="off" required>
+                    <input id="code" class="field-input min-h-12 w-full" name="code" placeholder="RR-XXXXXXXXXX" autocomplete="off" required>
                     <input type="hidden" name="method" value="manual">
                     <button class="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#104b68] px-4 text-sm font-bold text-white transition hover:bg-[#0b3b54]" type="submit">
                         <x-heroicon-o-check class="h-5 w-5" />
@@ -79,9 +79,9 @@
                 </form>
             </div>
 
-            <div class="rounded-3xl border border-[#cceae4] bg-[#e9f8f5] p-5 sm:p-6">
+            <div class="rounded-3xl border border-[#cce8f6] bg-[#e9f7fe] p-5 sm:p-6">
                 <div class="flex items-start gap-3">
-                    <x-heroicon-o-check class="mt-0.5 h-5 w-5 shrink-0 text-[#159b83]" />
+                    <x-heroicon-o-check class="mt-0.5 h-5 w-5 shrink-0 text-[#147eaf]" />
                     <div class="text-sm leading-6 text-[#3f7183]">
                         <p class="font-bold text-[#104b68]">Alur check-in</p>
                         <ol class="mt-2 list-decimal space-y-1 pl-4">
@@ -100,7 +100,7 @@
     #reader video { width: 100% !important; height: auto !important; min-height: 280px; object-fit: cover; }
     #reader__scan_region { min-height: 280px; }
     #reader__dashboard { padding: 10px 0 0 !important; }
-    #reader__dashboard_section_csr button { border: 1px solid #cceae4; border-radius: 10px; padding: 8px 12px; color: #104b68; background: #fff; }
+    #reader__dashboard_section_csr button { border: 1px solid #cce8f6; border-radius: 10px; padding: 8px 12px; color: #104b68; background: #fff; }
     @media (min-width: 640px) { #reader video, #reader__scan_region { min-height: 380px; } }
 </style>
 
@@ -128,9 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const showStatus = (message, type = 'error') => {
         const styles = {
-            success: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+            success: 'border-sky-200 bg-sky-50 text-sky-700',
             error: 'border-red-200 bg-red-50 text-red-700',
-            info: 'border-[#cceae4] bg-[#e9f8f5] text-[#3f7183]',
+            info: 'border-[#cce8f6] bg-[#e9f7fe] text-[#3f7183]',
         };
         status.textContent = message;
         status.className = `mb-5 rounded-2xl border p-4 text-sm ${styles[type] ?? styles.error}`;
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.Swal) {
             window.Swal.fire({
                 confirmButtonText: 'Mengerti',
-                confirmButtonColor: '#159b83',
+                confirmButtonColor: '#147eaf',
                 background: '#ffffff',
                 color: '#104b68',
                 customClass: { popup: 'mhc-alert-popup', confirmButton: 'mhc-alert-button' },

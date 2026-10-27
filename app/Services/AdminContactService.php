@@ -17,10 +17,10 @@ class AdminContactService
         }
 
         $adminName = trim((string) $setting?->admin_name);
-        $greetingName = $adminName !== '' ? $adminName : 'admin MHC';
+        $greetingName = $adminName !== '' ? $adminName : 'admin Ruang Riung';
         $message = $event
             ? 'Halo '.$greetingName.', saya ingin bertanya tentang event '.$event->name.'.'
-            : 'Halo '.$greetingName.', saya ingin bertanya tentang event komunitas MHC.';
+            : 'Halo '.$greetingName.', saya ingin bertanya tentang event komunitas Ruang Riung.';
 
         return 'https://wa.me/'.$phone.'?text='.rawurlencode($message);
     }

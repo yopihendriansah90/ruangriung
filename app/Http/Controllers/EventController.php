@@ -43,7 +43,7 @@ class EventController extends Controller
         // - format JPG/PNG (hindari WebP untuk OG), maksimal 8 MB (kita batasi 2 MB di form)
         // - minimal 200x200 px, ideal 1200x630 px rasio 1.91:1, minimal besar 600x315 px
         $ogMedia = $event->getFirstMedia('event-og-images') ?: $event->getFirstMedia('event-posters');
-        $posterUrl = $ogMedia?->getUrl() ?: asset('images/logo-mhc.jpg');
+        $posterUrl = $ogMedia?->getUrl() ?: asset('images/ruang-riung-logo.png');
         $ogImageWidth = null;
         $ogImageHeight = null;
         if ($ogMedia) {
@@ -62,7 +62,7 @@ class EventController extends Controller
 
         return view('events.show', [
             'event' => $event,
-            'title' => $event->name.' — MHC Community',
+            'title' => $event->name.' — Ruang Riung',
             'metaDescription' => $plainDescription !== '' ? $plainDescription : $event->name.($eventDate ? ' — '.$eventDate : ''),
             'ogType' => 'article',
             'ogTitle' => $event->name,

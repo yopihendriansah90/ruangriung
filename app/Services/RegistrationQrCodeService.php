@@ -16,7 +16,7 @@ class RegistrationQrCodeService
         $white = imagecolorallocate($canvas, 255, 255, 255);
         $black = imagecolorallocate($canvas, 17, 24, 39);
         $navy = imagecolorallocate($canvas, 16, 75, 104);
-        $teal = imagecolorallocate($canvas, 21, 155, 131);
+        $blue = imagecolorallocate($canvas, 20, 126, 175);
         $muted = imagecolorallocate($canvas, 93, 125, 134);
         imagefill($canvas, 0, 0, $white);
 
@@ -124,7 +124,7 @@ class RegistrationQrCodeService
             return $y;
         };
 
-        $drawCentered('MHC COMMUNITY', 418, 13, $teal, true);
+        $drawCentered('RUANG RIUNG', 418, 13, $blue, true);
         $nameEndY = $drawWrapped($normalize(mb_strimwidth($registration->name, 0, 80)), 452, 19, $navy, true, 380, 26, 2);
         $drawCentered('ID: '.$registration->registration_code, $nameEndY + 24, 13, $muted);
         $drawWrapped($normalize($registration->event->name), $nameEndY + 50, 12, $muted, false, 380, 18, 3);

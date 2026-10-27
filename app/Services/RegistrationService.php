@@ -49,7 +49,7 @@ class RegistrationService
     private function makeRegistrationCode(): string
     {
         do {
-            $code = 'MHC-'.strtoupper(Str::random(10));
+            $code = 'RR-'.strtoupper(Str::random(10));
         } while (Registration::query()->where('registration_code', $code)->exists());
 
         return $code;
