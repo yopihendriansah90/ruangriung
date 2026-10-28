@@ -34,16 +34,15 @@ class WhatsAppInvitationUrlService
     private function makeMessage(Registration $registration): string
     {
         $event = $registration->event;
-        $time = substr((string) $event->start_time, 0, 5).($event->end_time ? ' - '.substr((string) $event->end_time, 0, 5) : '').' WIB';
 
         $lines = [
             'Halo '.$registration->name.',',
             '',
             'Terima kasih sudah mendaftar event Ruang Riung.',
             '',
-            'Event: '.$event->name,
+            'Event: '.$event->namePlain(),
             'Tanggal: '.$event->event_date->translatedFormat('d F Y'),
-            'Waktu: '.$time,
+            'Waktu: '.$event->timeRange(),
             'Lokasi: '.$event->location_name,
         ];
 

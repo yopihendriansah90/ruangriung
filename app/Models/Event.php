@@ -132,6 +132,17 @@ class Event extends Model implements HasMedia
     }
 
     /**
+     * Nama event tanpa tag <br> dan tanpa baris baru —
+     * dipakai untuk slug, pesan WhatsApp, URL, dan teks lain.
+     */
+    public function namePlain(): string
+    {
+        $name = preg_replace('/<br\s*\/?>/i', ' ', $this->name ?? '');
+
+        return trim((string) preg_replace('/\s+/', ' ', (string) $name));
+    }
+
+    /**
      * Rentang jam event. Tanpa jam selesai → ditampilkan "07:00 – selesai".
      */
     public function timeRange(): string
