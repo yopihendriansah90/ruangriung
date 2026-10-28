@@ -34,7 +34,7 @@ class RegistrationFlowTest extends TestCase
         $response->assertRedirect(route('registrations.success', $registration));
         $this->get(route('registrations.success', $registration))
             ->assertOk()
-            ->assertSee('Terima kasih, Budi MHC!')
+            ->assertSee('Sampai bertemu, Budi MHC!')
             ->assertSee('https://chat.whatsapp.com/example');
         $this->assertSame('budi@example.com', $registration->email);
     }

@@ -39,6 +39,9 @@ class RegistrationController extends Controller
     {
         $registration->load('event');
 
-        return view('registrations.success', compact('registration'));
+        return view('registrations.success', [
+            'registration' => $registration,
+            'title' => 'Pendaftaran Berhasil — Ruang Riung',
+        ]);
     }
 }

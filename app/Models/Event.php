@@ -14,10 +14,13 @@ class Event extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     public const STATUS_DRAFT = 'draft';
+
     public const STATUS_PUBLISHED = 'published';
+
     public const STATUS_CLOSED = 'closed';
 
     public const CAPACITY_LIMITED = 'limited';
+
     public const CAPACITY_UNLIMITED = 'unlimited';
 
     protected $fillable = [
@@ -62,8 +65,31 @@ class Event extends Model implements HasMedia
 
     public function hasAvailableCapacity(): bool
     {
-        return $this->capacity_type === self::CAPACITY_UNLIMITED
-            || $this->registrations()->where('status', 'registered')->count() < (int) $this->capacity;
+        return ! $this->isFull();
+    }
+
+    public function registeredCount(): int
+    {
+        if (array_key_exists('registered_registrations_count', $this->attributes)) {
+            return (int) $this->attributes['registered_registrations_count'];
+        }
+
+        return $this->registrations()->where('status', Registration::STATUS_REGISTERED)->count();
+    }
+
+    public function isFull(): bool
+    {
+        return $this->capacity_type === self::CAPACITY_LIMITED
+            && $this->registeredCount() >= (int) $this->capacity;
+    }
+
+    public function remainingSeats(): ?int
+    {
+        if ($this->capacity_type !== self::CAPACITY_LIMITED) {
+            return null;
+        }
+
+        return max((int) $this->capacity - $this->registeredCount(), 0);
     }
 
     public function isEnded(): bool
