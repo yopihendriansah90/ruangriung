@@ -25,7 +25,7 @@
         <a href="{{ route('events.index', ['period' => 'all']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Semua event</a>
 
         <article class="mt-7 grid overflow-hidden bg-white shadow-[0_24px_70px_rgba(16,75,104,0.1)] lg:grid-cols-[minmax(320px,0.82fr)_minmax(0,1.18fr)]">
-            <div class="bg-[#dfecee] p-4 sm:p-6 lg:p-8">
+            <div class="bg-[#dfecee] p-[6px] sm:p-[14px] lg:p-[22px]">
                 <div class="mx-auto aspect-[4/5] max-w-[520px] overflow-hidden bg-[#e8f2f3]">
                     @if ($poster)
                         <button type="button" data-poster-open class="group relative block h-full w-full cursor-zoom-in" aria-label="Perbesar poster {{ $event->name }}">
@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-col justify-between p-6 sm:p-9 lg:p-12">
+            <div class="flex flex-col justify-between p-[14px] sm:p-[26px] lg:p-[38px]">
                 <div>
                     <div class="flex flex-wrap items-center gap-3">
                         @unless ($event->isEnded())
