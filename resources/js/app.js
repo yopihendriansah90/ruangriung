@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMenu();
     initBannerSlider();
     initChipScroller();
+    initNavActive();
 });
 
 function initMenu() {
@@ -162,6 +163,29 @@ function initBannerSlider() {
             }
         }, true);
     }
+}
+
+// Tandai menu navbar yang aktif sesuai URL saat ini (termasuk #hash).
+function initNavActive() {
+    const links = [...document.querySelectorAll('[data-nav]')];
+    if (!links.length) return;
+
+    const apply = () => {
+        const currentPath = window.location.origin + window.location.pathname;
+        const currentHash = window.location.hash;
+        links.forEach((link) => {
+            const target = new URL(link.href);
+            const linkPath = target.origin + target.pathname;
+            const isActive = target.hash
+                ? linkPath === currentPath && target.hash === currentHash
+                : linkPath === currentPath && currentHash === '';
+            if (isActive) link.setAttribute('data-nav-active', '');
+            else link.removeAttribute('data-nav-active');
+        });
+    };
+
+    apply();
+    window.addEventListener('hashchange', apply);
 }
 
 // Gulir baris chips kategori dengan tombol panah.

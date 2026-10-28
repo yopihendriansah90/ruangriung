@@ -15,7 +15,8 @@
     $adminContactUrl = app(\App\Services\AdminContactService::class)->whatsappUrl();
 @endphp
 
-@if (! $isFiltered && $banners->isNotEmpty())
+@if (! $isFiltered)
+@if ($banners->isNotEmpty())
     <section class="mt-2" aria-label="Banner informasi">
         <div class="public-container relative">
             <div class="group relative overflow-hidden rounded-2xl" data-banner-slider data-interval="6000">
@@ -49,6 +50,7 @@
             </div>
         </div>
     </section>
+@endif
 
     <section class="public-container mt-4 sm:mt-6">
         <div class="rounded-3xl border border-[#d7e1df]/70 bg-white/60 p-4 shadow-[0_12px_58px_rgba(16,75,104,0.08)] sm:p-6">
@@ -256,11 +258,11 @@
         <div class="mt-12 flex items-end justify-between gap-5">
             <div>
                 <p class="section-eyebrow">Hasil pencarian</p>
-                <h2 class="mt-2 text-2xl font-bold text-[#104b68]">{{ $events->total() }} event ditemukan</h2>
+                <h2 class="mt-2 text-2xl font-bold text-[#104b68]">{{ $events?->total() ?? 0 }} event ditemukan</h2>
             </div>
         </div>
 
-        @if ($events->isNotEmpty())
+        @if ($events?->isNotEmpty())
             <div class="mt-8 grid gap-x-7 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($events as $event)
                     <x-public.event-card :event="$event" :story="$event->isEnded()" />

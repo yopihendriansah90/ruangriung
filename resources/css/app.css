@@ -45,6 +45,27 @@
     .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     main > section + section { @apply mt-2.5; }
+
+    /* Menu navbar desktop: garis bawah yang tumbuh saat hover & aktif */
+    .nav-link { @apply relative transition-colors duration-200; }
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -0.5rem;
+        height: 2px;
+        width: 100%;
+        border-radius: 9999px;
+        background-color: #147eaf;
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.25s ease;
+    }
+    .nav-link:hover { @apply text-[#147eaf]; }
+    .nav-link:hover::after, .nav-link[data-nav-active]::after { transform: scaleX(1); }
+    .nav-link[data-nav-active] { @apply text-[#104b68]; }
+    /* Menu navbar mobile: latar putih + warna saat aktif */
+    .nav-mobile a[data-nav-active] { @apply bg-white text-[#147eaf]; }
 }
 
 @layer components {

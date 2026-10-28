@@ -21,8 +21,31 @@ class EventForm
     {
         return $schema
             ->components([
-                TextInput::make('name')->label('Nama event')->required()->maxLength(255)->live(onBlur: true)->afterStateUpdated(fn (Set $set, ?string $state): mixed => $set('slug', Str::slug($state ?? ''))),
-                TextInput::make('slug')->label('Slug URL')->required()->maxLength(255)->unique(ignoreRecord: true),
+                TextInput::make('name')
+                    ->label('Nama event')
+                    ->required()
+                    ->maxLength(255)
+                    ->helperText('Sisipkan &lt;br&gt; di nama untuk memecah judul menjadi dua baris pada halaman detail event. Slug tidak lagi otomatis — gunakan tombol generate di sebelah field slug.'),
+                TextInput::make('slug')
+                    ->label('Slug URL')
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true)
+                    ->suffixAction(
+                        \Filament\Actions\Action::make('generateSlug')
+                            ->label('Generate otomatis dari nama event')
+                            ->icon('heroicon-m-arrow-path')
+                            ->color('gray')
+                            ->action(function (Get $get, Set $set): void {
+                                $name = trim((string) $get('name'));
+                                // Buang tag <br> agar tidak mengganggu slug.
+                                $name = preg_replace('/<br\s*\/?>/i', ' ', $name);
+                                $slug = Str::slug((string) $name);
+                                if ($slug !== '') {
+                                    $set('slug', $slug);
+                                }
+                            })
+                    ),
                 Select::make('category')
                     ->label('Kategori')
                     ->options(Event::categoryOptions())

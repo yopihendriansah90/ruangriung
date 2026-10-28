@@ -10,6 +10,8 @@
     $descriptionHtml = trim($event->description) === strip_tags($event->description)
         ? nl2br(e($event->description))
         : $event->description;
+    // Judul mendukung pemecah baris: admin bisa menyisipkan <br> di nama event.
+    $titleHtml = nl2br(e(preg_replace('/<br\s*\/?>(?:\s*<br\s*\/?>)*/i', "\n", $event->name ?? '')));
     $unavailableMessage = match (true) {
         $isClosed => 'Pendaftaran untuk event ini sudah ditutup.',
         $isEnded => 'Event ini sudah selesai.',
@@ -46,7 +48,7 @@
                             <x-public.event-status-badge :event="$event" />
                         @endunless
                     </div>
-                    <h1 class="mt-6 max-w-3xl text-2xl font-bold leading-[1.15] tracking-[-0.03em] text-[#104b68] sm:text-3xl lg:text-4xl">{{ $event->name }}</h1>
+                    <h1 class="mt-6 max-w-3xl text-2xl font-bold leading-[1.15] tracking-[-0.03em] text-[#104b68] sm:text-3xl lg:text-4xl">{!! $titleHtml !!}</h1>
                     <x-public.event-meta :event="$event" :show-capacity="true" :show-address="true" class="mt-8 py-7" />
 
                 </div>

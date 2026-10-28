@@ -38,10 +38,10 @@
             </a>
 
             <nav class="hidden items-center gap-7 text-sm font-bold text-[#496d78] lg:flex" aria-label="Navigasi utama">
-                <a href="{{ route('home') }}" class="transition hover:text-[#147eaf]">Beranda</a>
-                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="transition hover:text-[#147eaf]">Event</a>
-                <a href="{{ route('home') }}#cerita" class="transition hover:text-[#147eaf]">Cerita</a>
-                <a href="{{ route('home') }}#tentang" class="transition hover:text-[#147eaf]">Tentang</a>
+                <a href="{{ route('home') }}" class="nav-link" data-nav>Beranda</a>
+                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="nav-link" data-nav>Event</a>
+                <a href="{{ route('home') }}#cerita" class="nav-link" data-nav>Cerita</a>
+                <a href="{{ route('home') }}#tentang" class="nav-link" data-nav>Tentang</a>
             </nav>
 
             <div class="flex items-center gap-2">
@@ -54,12 +54,12 @@
             </div>
         </div>
 
-        <nav id="public-mobile-menu" class="hidden border-t border-[#d7e1df] bg-[#f7f5ef] lg:hidden" aria-label="Navigasi mobile" data-public-menu>
+        <nav id="public-mobile-menu" class="nav-mobile hidden border-t border-[#d7e1df] bg-[#f7f5ef] lg:hidden" aria-label="Navigasi mobile" data-public-menu>
             <div class="public-container flex flex-col gap-1 py-4 text-sm font-bold text-[#496d78]">
-                <a href="{{ route('home') }}" class="rounded-xl px-3 py-3 hover:bg-white hover:text-[#147eaf]">Beranda</a>
-                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="rounded-xl px-3 py-3 hover:bg-white hover:text-[#147eaf]">Event</a>
-                <a href="{{ route('home') }}#cerita" class="rounded-xl px-3 py-3 hover:bg-white hover:text-[#147eaf]">Cerita</a>
-                <a href="{{ route('home') }}#tentang" class="rounded-xl px-3 py-3 hover:bg-white hover:text-[#147eaf]">Tentang</a>
+                <a href="{{ route('home') }}" class="rounded-xl px-3 py-3 transition hover:bg-white hover:text-[#147eaf]" data-nav>Beranda</a>
+                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="rounded-xl px-3 py-3 transition hover:bg-white hover:text-[#147eaf]" data-nav>Event</a>
+                <a href="{{ route('home') }}#cerita" class="rounded-xl px-3 py-3 transition hover:bg-white hover:text-[#147eaf]" data-nav>Cerita</a>
+                <a href="{{ route('home') }}#tentang" class="rounded-xl px-3 py-3 transition hover:bg-white hover:text-[#147eaf]" data-nav>Tentang</a>
                 <a href="{{ route('events.index', ['period' => 'all']) }}" class="btn-primary mt-2">Jelajahi Event</a>
             </div>
         </nav>
