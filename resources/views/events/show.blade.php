@@ -47,11 +47,8 @@
                         @endunless
                     </div>
                     <h1 class="mt-6 max-w-3xl text-2xl font-bold leading-[1.15] tracking-[-0.03em] text-[#104b68] sm:text-3xl lg:text-4xl">{{ $event->name }}</h1>
-                    <x-public.event-meta :event="$event" :show-capacity="true" class="mt-8 border-y border-[#d7e1df] py-7" />
+                    <x-public.event-meta :event="$event" :show-capacity="true" :show-address="true" class="mt-8 py-7" />
 
-                    @if ($event->location_address)
-                        <p class="mt-5 text-sm leading-7 text-[#5d7d86]">{{ $event->location_address }}</p>
-                    @endif
                 </div>
 
                 <div class="mt-8">
@@ -91,7 +88,7 @@
                 </div>
                 <div>
                     <dt class="text-xs font-bold uppercase tracking-[0.12em] text-[#78959b]">Lokasi</dt>
-                    <dd class="mt-1 font-semibold leading-6 text-[#255b70]">{{ $event->location_name }}</dd>
+                    <dd class="mt-1 font-semibold leading-6 text-[#255b70]">{{ $event->location_name }}@if (filled($event->location_address)) - {{ trim($event->location_address) }}@endif</dd>
                 </div>
                 <div>
                     <dt class="text-xs font-bold uppercase tracking-[0.12em] text-[#78959b]">Penyelenggara</dt>

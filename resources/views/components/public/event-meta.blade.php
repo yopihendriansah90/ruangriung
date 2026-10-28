@@ -1,4 +1,4 @@
-@props(['event', 'showCapacity' => false])
+@props(['event', 'showCapacity' => false, 'showAddress' => false])
 
 <div {{ $attributes->class('space-y-3 text-sm leading-6 text-[#496d78]') }}>
     <p class="flex items-start gap-3">
@@ -11,7 +11,7 @@
     </p>
     <p class="flex items-start gap-3">
         <i class="fa-solid fa-location-dot mt-1 w-4 shrink-0 text-center text-[#147eaf]" aria-hidden="true"></i>
-        <span>{{ $event->location_name }}</span>
+        <span>{{ $event->location_name }}@if ($showAddress && filled($event->location_address)) - {{ trim($event->location_address) }}@endif</span>
     </p>
     @if ($showCapacity)
         <p class="flex items-start gap-3">
