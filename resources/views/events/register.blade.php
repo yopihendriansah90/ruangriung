@@ -63,12 +63,12 @@
                 @csrf
                 <div class="grid gap-6 sm:grid-cols-2">
                     <div class="sm:col-span-2">
-                        <label class="field-label" for="name">Nama lengkap <span class="text-red-600">*</span></label>
+                        <label class="field-label" for="name">Nama Lengkap <span class="text-red-600">*</span></label>
                         <input class="field-input" id="name" name="name" value="{{ old('name') }}" autocomplete="name" required aria-describedby="name-error">
                         @error('name')<p class="field-error" id="name-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
                     </div>
                     <div>
-                        <label class="field-label" for="email">Email aktif <span class="text-red-600">*</span></label>
+                        <label class="field-label" for="email">Email Aktif <span class="text-red-600">*</span></label>
                         <input class="field-input" id="email" name="email" type="email" inputmode="email" value="{{ old('email') }}" autocomplete="email" required aria-describedby="email-error">
                         @error('email')<p class="field-error" id="email-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
                     </div>
@@ -78,7 +78,7 @@
                         @error('phone')<p class="field-error" id="phone-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
                     </div>
                     <div>
-                        <label class="field-label" for="gender">Jenis kelamin <span class="text-red-600">*</span></label>
+                        <label class="field-label" for="gender">Jenis Kelamin <span class="text-red-600">*</span></label>
                         <select class="field-input" id="gender" name="gender" required aria-describedby="gender-error">
                             <option value="">Pilih jenis kelamin</option>
                             <option value="male" @selected(old('gender') === 'male')>Laki-laki</option>
@@ -87,17 +87,12 @@
                         @error('gender')<p class="field-error" id="gender-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
                     </div>
                     <div>
-                        <label class="field-label" for="city">Kota/domisili</label>
+                        <label class="field-label" for="city">Asal/Domisili</label>
                         <input class="field-input" id="city" name="city" value="{{ old('city') }}" autocomplete="address-level2">
                         @error('city')<p class="field-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
                     </div>
                     <div>
-                        <label class="field-label" for="organization">Asal komunitas/instansi</label>
-                        <input class="field-input" id="organization" name="organization" value="{{ old('organization') }}" autocomplete="organization">
-                        @error('organization')<p class="field-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
-                    </div>
-                    <div>
-                        <label class="field-label" for="referral_source">Tahu event ini dari</label>
+                        <label class="field-label" for="referral_source">Tahu Event ini dari</label>
                         <select class="field-input" id="referral_source" name="referral_source">
                             <option value="">Pilih sumber</option>
                             @foreach (['Instagram', 'WhatsApp', 'Teman', 'Komunitas', 'Lainnya'] as $source)
@@ -105,11 +100,6 @@
                             @endforeach
                         </select>
                         @error('referral_source')<p class="field-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label class="field-label" for="notes">Catatan tambahan</label>
-                        <textarea class="field-input" id="notes" name="notes" rows="4">{{ old('notes') }}</textarea>
-                        @error('notes')<p class="field-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
                     </div>
                 </div>
 
