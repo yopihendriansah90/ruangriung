@@ -131,6 +131,17 @@ class Event extends Model implements HasMedia
         return $this->event_date?->isPast() && ! $this->event_date?->isToday();
     }
 
+    /**
+     * Judul tampil dengan dukungan pemenggalan baris:
+     * tag <br> di nama event dirender menjadi baris baru.
+     */
+    public function titleHtml(): string
+    {
+        $name = preg_replace('/<br\s*\/?>(?:\s*<br\s*\/?>)*/i', "\n", $this->name ?? '');
+
+        return nl2br(e((string) $name));
+    }
+
     public function isPubliclyVisible(): bool
     {
         return in_array($this->status, [self::STATUS_PUBLISHED, self::STATUS_CLOSED], true);

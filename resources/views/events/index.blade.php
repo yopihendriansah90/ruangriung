@@ -109,7 +109,7 @@
                 <div class="flex flex-col justify-between p-6 sm:p-8">
                     <div>
                         <x-public.event-status-badge :event="$featuredEvent" />
-                        <h3 class="mt-5 text-2xl font-bold leading-tight text-[#104b68] sm:text-3xl">{{ $featuredEvent->name }}</h3>
+                        <h3 class="mt-5 text-2xl font-bold leading-tight text-[#104b68] sm:text-3xl">{!! $featuredEvent->titleHtml() !!}</h3>
                         <x-public.event-meta :event="$featuredEvent" :show-capacity="true" class="mt-6" />
                     </div>
                     <a href="{{ route('events.show', $featuredEvent) }}" class="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">

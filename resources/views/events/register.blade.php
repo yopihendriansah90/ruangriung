@@ -28,7 +28,7 @@
         </div>
         <div class="p-6 sm:p-8">
             <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#65c6f1]">Kamu akan mendaftar ke</p>
-            <h2 class="mt-3 text-2xl font-bold leading-tight">{{ $event->name }}</h2>
+            <h2 class="mt-3 text-2xl font-bold leading-tight">{!! $event->titleHtml() !!}</h2>
             <div class="mt-6 space-y-3 text-sm leading-6 text-[#d7e8ec]">
                 <p class="flex gap-3"><i class="fa-regular fa-calendar mt-1 w-4 text-[#65c6f1]" aria-hidden="true"></i><span>{{ $event->event_date->translatedFormat('l, d F Y') }}</span></p>
                 <p class="flex gap-3"><i class="fa-regular fa-clock mt-1 w-4 text-[#65c6f1]" aria-hidden="true"></i><span>{{ substr($event->start_time, 0, 5) }}{{ $event->end_time ? ' – '.substr($event->end_time, 0, 5) : '' }} WIB</span></p>

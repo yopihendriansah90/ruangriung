@@ -28,7 +28,7 @@
             <p class="text-xs font-bold uppercase tracking-[0.16em] text-[#147eaf]">
                 {{ $story ? 'Cerita pertemuan' : $event->event_date->translatedFormat('d F Y') }}
             </p>
-            <h3 class="mt-2 text-xl font-bold leading-snug text-[#104b68] transition group-hover:text-[#147eaf]">{{ $event->name }}</h3>
+            <h3 class="mt-2 text-xl font-bold leading-snug text-[#104b68] transition group-hover:text-[#147eaf]">{!! $event->titleHtml() !!}</h3>
             @if ($story)
                 <p class="mt-2 line-clamp-2 text-sm leading-6 text-[#5d7d86]">{{ $summary }}</p>
             @endif

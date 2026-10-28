@@ -10,8 +10,8 @@
     $descriptionHtml = trim($event->description) === strip_tags($event->description)
         ? nl2br(e($event->description))
         : $event->description;
-    // Judul mendukung pemecah baris: admin bisa menyisipkan <br> di nama event.
-    $titleHtml = nl2br(e(preg_replace('/<br\s*\/?>(?:\s*<br\s*\/?>)*/i', "\n", $event->name ?? '')));
+    // Judul detail pakai helper model (dukungan <br>).
+    $titleHtml = $event->titleHtml();
     $unavailableMessage = match (true) {
         $isClosed => 'Pendaftaran untuk event ini sudah ditutup.',
         $isEnded => 'Event ini sudah selesai.',
