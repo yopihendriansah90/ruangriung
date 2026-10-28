@@ -5,7 +5,7 @@
 
 <section class="border-b border-[#d7e1df] bg-[#edf5f3]">
     <div class="public-container py-10 sm:py-14">
-        <a href="{{ route('events.show', $event) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke detail event</a>
+        <a href="{{ route('events.show', $event) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Kembali ke detail event</a>
         <div class="mt-8 max-w-3xl">
             <p class="section-eyebrow">Pendaftaran peserta</p>
             <h1 class="section-title">Siapkan tempatmu di pertemuan ini</h1>
@@ -31,7 +31,7 @@
             <h2 class="mt-3 text-2xl font-bold leading-tight">{!! $event->titleHtml() !!}</h2>
             <div class="mt-6 space-y-3 text-sm leading-6 text-[#d7e8ec]">
                 <p class="flex gap-3"><i class="fa-regular fa-calendar mt-1 w-4 text-[#65c6f1]" aria-hidden="true"></i><span>{{ $event->event_date->translatedFormat('l, d F Y') }}</span></p>
-                <p class="flex gap-3"><i class="fa-regular fa-clock mt-1 w-4 text-[#65c6f1]" aria-hidden="true"></i><span>{{ substr($event->start_time, 0, 5) }}{{ $event->end_time ? ' – '.substr($event->end_time, 0, 5) : '' }} WIB</span></p>
+                <p class="flex gap-3"><i class="fa-regular fa-clock mt-1 w-4 text-[#65c6f1]" aria-hidden="true"></i><span>{{ $event->timeRange() }}</span></p>
                 <p class="flex gap-3"><i class="fa-solid fa-location-dot mt-1 w-4 text-[#65c6f1]" aria-hidden="true"></i><span>{{ $event->location_name }}</span></p>
             </div>
         </div>
@@ -121,7 +121,7 @@
                     @error('data_consent')<p class="field-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
                 </div>
 
-                <button class="btn-primary w-full sm:w-auto" type="submit">Kirim pendaftaran <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                <button class="btn-primary w-full sm:w-auto" type="submit">Kirim pendaftaran</button>
             </form>
         @endif
     </div>

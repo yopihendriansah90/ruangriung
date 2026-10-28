@@ -7,7 +7,7 @@
     </p>
     <p class="flex items-start gap-3">
         <i class="fa-regular fa-clock mt-1 w-4 shrink-0 text-center text-[#147eaf]" aria-hidden="true"></i>
-        <span>{{ substr($event->start_time, 0, 5) }}{{ $event->end_time ? ' – '.substr($event->end_time, 0, 5) : '' }} WIB</span>
+        <span>{{ $event->timeRange() }}</span>
     </p>
     <p class="flex items-start gap-3">
         <i class="fa-solid fa-location-dot mt-1 w-4 shrink-0 text-center text-[#147eaf]" aria-hidden="true"></i>

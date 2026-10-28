@@ -93,7 +93,7 @@
                     <p class="section-eyebrow">Jangan sampai terlewat</p>
                     <h2 class="section-title">Event terdekat</h2>
                 </div>
-                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua</a>
             </div>
             <article class="mt-10 grid overflow-hidden rounded-[1.75rem] bg-white shadow-[0_24px_70px_rgba(16,75,104,0.13)] sm:grid-cols-[minmax(220px,0.8fr)_1fr]">
                 <div class="aspect-[4/5] bg-[#dfecee] sm:aspect-auto sm:min-h-[450px]">
@@ -113,7 +113,7 @@
                         <x-public.event-meta :event="$featuredEvent" :show-capacity="true" class="mt-6" />
                     </div>
                     <a href="{{ route('events.show', $featuredEvent) }}" class="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">
-                        Lihat detail event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        Lihat detail event
                     </a>
                 </div>
             </article>
@@ -127,7 +127,7 @@
                 <h2 class="section-title">Event yang akan datang</h2>
                 <p class="section-copy">Pilih pertemuan yang terasa dekat denganmu, lalu hadir dan bertumbuh bersama.</p>
             </div>
-            <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+            <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua</a>
         </div>
 
         @if ($upcomingEvents->isNotEmpty())
@@ -171,7 +171,7 @@
                 <h2 class="section-title">Cerita dari Ruangriung</h2>
                 <p class="section-copy">Setiap pertemuan boleh selesai, tetapi percakapan dan koneksi yang tumbuh bisa berjalan lebih jauh.</p>
             </div>
-            <a href="{{ route('events.index', ['period' => 'past']) }}" class="inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat cerita lainnya <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+            <a href="{{ route('events.index', ['period' => 'past']) }}" class="inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat cerita lainnya</a>
         </div>
 
         @if ($pastEvents->isNotEmpty())
@@ -204,7 +204,7 @@
 @else
     <section class="border-b border-[#d7e1df] bg-[#edf5f3]">
         <div class="public-container py-12 sm:py-16">
-            <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke beranda</a>
+            <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Kembali ke beranda</a>
             <div class="mt-8 max-w-3xl">
                 <p class="section-eyebrow">Jelajahi pertemuan</p>
                 <h1 class="section-title">Temukan event Ruangriung</h1>
@@ -222,7 +222,7 @@
                 <i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#78959b]" aria-hidden="true"></i>
                 <input id="event-search" name="search" value="{{ $search }}" class="field-input min-h-12 pl-11" placeholder="Cari nama event atau lokasi">
             </div>
-            <button class="btn-accent" type="submit">Cari Event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+            <button class="btn-accent" type="submit">Cari Event</button>
         </form>
 
         <div class="mt-5 space-y-3">

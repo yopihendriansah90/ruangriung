@@ -132,6 +132,20 @@ class Event extends Model implements HasMedia
     }
 
     /**
+     * Rentang jam event. Tanpa jam selesai → ditampilkan "07:00 – selesai".
+     */
+    public function timeRange(): string
+    {
+        $start = substr((string) $this->start_time, 0, 5);
+
+        if (! $this->end_time) {
+            return $start.' – selesai';
+        }
+
+        return $start.' – '.substr((string) $this->end_time, 0, 5).' WIB';
+    }
+
+    /**
      * Judul tampil dengan dukungan pemenggalan baris:
      * tag <br> di nama event dirender menjadi baris baru.
      */

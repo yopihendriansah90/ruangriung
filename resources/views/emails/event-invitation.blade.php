@@ -40,7 +40,7 @@
                                 </tr>
                                 <tr>
                                     <td width="92" style="padding:0 0 9px;font-weight:700;color:#174d68">Waktu</td>
-                                    <td style="padding:0 0 9px">{{ substr($registration->event->start_time, 0, 5) }}{{ $registration->event->end_time ? ' – '.substr($registration->event->end_time, 0, 5) : '' }} WIB</td>
+                                    <td style="padding:0 0 9px">{{ $registration->event->timeRange() }}</td>
                                 </tr>
                                 <tr>
                                     <td width="92" style="padding:0;vertical-align:top;font-weight:700;color:#174d68">Lokasi</td>

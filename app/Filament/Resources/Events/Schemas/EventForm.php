@@ -53,7 +53,11 @@ class EventForm
                     ->required(),
                 DatePicker::make('event_date')->label('Tanggal event')->required()->native(false),
                 TimePicker::make('start_time')->label('Jam mulai')->required()->seconds(false),
-                TimePicker::make('end_time')->label('Jam selesai')->seconds(false),
+                TimePicker::make('end_time')
+                    ->label('Jam selesai')
+                    ->seconds(false)
+                    ->placeholder('Sampai selesai')
+                    ->helperText('Kosongkan jika jam selesai belum ditentukan — waktu event akan tampil sebagai "07:00 – selesai".'),
                 RichEditor::make('description')
                     ->label('Deskripsi lengkap')
                     ->helperText('Gunakan heading, paragraf, list, link, atau kutipan untuk menyusun informasi event.')

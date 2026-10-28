@@ -5,7 +5,6 @@
     <div class="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
             <a href="{{ url('/admin') }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-medium text-[#5d7d86] transition hover:text-[#147eaf]">
-                <x-heroicon-o-arrow-left class="h-4 w-4" />
                 Kembali ke dashboard
             </a>
             <p class="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-[#147eaf]">Admin check-in</p>
