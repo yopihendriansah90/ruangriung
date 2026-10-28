@@ -45,7 +45,7 @@ class DummyEventSeeder extends Seeder
             [
                 'name' => 'Senam Pagi Bareng Komunitas',
                 'category' => 'olahraga',
-                'day' => 1,
+                'day' => -1, // kemarin — agar terisi sebagai "cerita" di beranda
                 'location_name' => 'Lapangan Bola Taman Bendungan',
                 'location_address' => 'Perumahan Bendungan Cihideung, Tasikmalaya',
                 'capacity_type' => Event::CAPACITY_UNLIMITED,

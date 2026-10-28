@@ -12,7 +12,7 @@
         : $event->description;
     $unavailableMessage = match (true) {
         $isClosed => 'Pendaftaran untuk event ini sudah ditutup.',
-        $isEnded => 'Event ini sudah selesai berlangsung.',
+        $isEnded => 'Event ini sudah selesai.',
         $isFull => 'Seluruh tempat untuk event ini sudah terisi.',
         default => null,
     };
@@ -42,8 +42,9 @@
             <div class="flex flex-col justify-between p-6 sm:p-9 lg:p-12">
                 <div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <x-public.event-status-badge :event="$event" />
-                        <span class="text-xs font-bold uppercase tracking-[0.16em] text-[#78959b]">Diselenggarakan Ruang Riung</span>
+                        @unless ($event->isEnded())
+                            <x-public.event-status-badge :event="$event" />
+                        @endunless
                     </div>
                     <h1 class="mt-6 max-w-3xl text-3xl font-bold leading-[1.08] tracking-[-0.035em] text-[#104b68] sm:text-4xl lg:text-5xl">{{ $event->name }}</h1>
                     <x-public.event-meta :event="$event" :show-capacity="true" class="mt-8 border-y border-[#d7e1df] py-7" />
