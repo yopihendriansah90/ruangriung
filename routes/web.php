@@ -26,6 +26,7 @@ Route::middleware('auth')->prefix('check-in')->name('check-in.')->group(function
 });
 
 Route::middleware('auth')->prefix('admin/exports')->name('exports.')->group(function (): void {
+    Route::get('/registrations/{registration}/transfer-proof', [RegistrationController::class, 'transferProof'])->name('transfer-proof');
     Route::get('/events/{event}/registrations', [ExportController::class, 'registrations'])->name('registrations');
     Route::get('/events/{event}/attendances', [ExportController::class, 'attendances'])->name('attendances');
     Route::get('/registrations/{registration:registration_code}/qr-code', [ExportController::class, 'registrationQrCode'])->name('registration-qr-code');

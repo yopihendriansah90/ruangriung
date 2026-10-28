@@ -59,7 +59,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('registrations.store', $event) }}" class="mt-8 space-y-6">
+            <form method="POST" action="{{ route('registrations.store', $event) }}" enctype="multipart/form-data" class="mt-8 space-y-6">
                 @csrf
                 <div class="grid gap-6 sm:grid-cols-2">
                     <div class="sm:col-span-2">
@@ -113,6 +113,14 @@
                     </div>
                 </div>
 
+                <div>
+                    <label class="field-label" for="transfer_proof">Upload bukti transfer <span class="text-red-600">*</span></label>
+                    <input class="field-input" type="file" id="transfer_proof" name="transfer_proof" accept="image/jpeg,image/png,image/webp" required aria-describedby="transfer-proof-help transfer-proof-error">
+                    <p class="mt-2 text-sm text-[#5d7d86]" id="transfer-proof-help">JPG, JPEG, PNG, atau WebP. Maksimal 2 MB. Pilih file lain untuk mengganti gambar. Jika formulir gagal dikirim, pilih kembali gambar.</p>
+                    <p class="field-error" id="transfer-proof-error" role="alert">@error('transfer_proof'){{ $message }}@enderror</p>
+                    <img id="transfer-proof-preview" alt="Pratinjau bukti transfer" class="mt-4 max-h-64 max-w-full object-contain" hidden>
+                </div>
+
                 <div class="border-t border-[#d7e1df] pt-6">
                     <label class="flex cursor-pointer items-start gap-3 text-sm leading-6 text-[#496d78]">
                         <input class="mt-1 h-4 w-4 shrink-0 accent-[#147eaf]" type="checkbox" name="data_consent" value="1" @checked(old('data_consent')) required>
@@ -128,4 +136,34 @@
 </section>
 
 <x-public.whatsapp-floating-button :event="$event" />
+<script>
+    (() => {
+        const input = document.getElementById('transfer_proof');
+        if (!input) return;
+        const preview = document.getElementById('transfer-proof-preview');
+        const error = document.getElementById('transfer-proof-error');
+        let previewUrl;
+        input.addEventListener('change', () => {
+            if (previewUrl) URL.revokeObjectURL(previewUrl);
+            preview.hidden = true;
+            preview.removeAttribute('src');
+            input.setCustomValidity('');
+            error.textContent = '';
+            const file = input.files[0];
+            if (!file) return;
+            let message = '';
+            if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+                message = 'Bukti transfer harus berupa gambar JPG, JPEG, PNG, atau WebP.';
+            } else if (file.size > 2 * 1024 * 1024) {
+                message = 'Ukuran bukti transfer maksimal 2 MB.';
+            }
+            input.setCustomValidity(message);
+            error.textContent = message;
+            if (message) { input.reportValidity(); return; }
+            previewUrl = URL.createObjectURL(file);
+            preview.src = previewUrl;
+            preview.hidden = false;
+        });
+    })();
+</script>
 @endsection

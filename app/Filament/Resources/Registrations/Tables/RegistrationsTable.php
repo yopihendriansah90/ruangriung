@@ -8,7 +8,6 @@ use App\Services\InvitationService;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -74,6 +73,12 @@ class RegistrationsTable
             ->recordActions([
                 ActionGroup::make([
                     ViewAction::make()->label('Lihat detail'),
+                    Action::make('viewTransferProof')
+                        ->label('Lihat bukti transfer')
+                        ->icon('heroicon-m-photo')
+                        ->visible(fn (Registration $record): bool => filled($record->transfer_proof_path))
+                        ->url(fn (Registration $record): string => route('exports.transfer-proof', $record))
+                        ->openUrlInNewTab(),
                     Action::make('downloadQrCode')
                         ->label('Download QR Code')
                         ->icon('heroicon-m-qr-code')

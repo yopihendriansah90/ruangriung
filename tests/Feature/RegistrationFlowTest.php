@@ -9,13 +9,21 @@ use App\Models\Registration;
 use App\Models\User;
 use App\Services\InvitationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Mime\Email;
 use Tests\TestCase;
 
 class RegistrationFlowTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Storage::fake('local');
+    }
 
     public function test_participant_can_register_and_see_whatsapp_invitation(): void
     {
@@ -26,7 +34,7 @@ class RegistrationFlowTest extends TestCase
             'email' => 'BUDI@example.com',
             'phone' => '08123456789',
             'gender' => 'male',
-            'data_consent' => '1',
+            'data_consent' => '1', 'transfer_proof' => UploadedFile::fake()->image('proof.jpg'),
         ]);
 
         $registration = Registration::firstOrFail();
@@ -37,6 +45,52 @@ class RegistrationFlowTest extends TestCase
             ->assertSee('Sampai bertemu, Budi MHC!')
             ->assertSee('https://chat.whatsapp.com/example');
         $this->assertSame('budi@example.com', $registration->email);
+        Storage::disk('local')->assertExists($registration->transfer_proof_path);
+        $url = route('exports.transfer-proof', $registration);
+        $this->get($url)->assertRedirect();
+        $this->actingAs(User::factory()->create())->get($url)
+            ->assertOk()->assertHeader('Content-Type', 'image/jpeg');
+    }
+
+    public function test_transfer_proof_rejects_missing_non_image_disguised_and_oversized_files(): void
+    {
+        $event = $this->event();
+        $payload = [
+            'name' => 'Sari', 'email' => 'sari@example.com', 'phone' => '08123456789',
+            'gender' => 'female', 'data_consent' => '1',
+        ];
+
+        $disguised = UploadedFile::fake()->createWithContent('proof.jpg', 'not an image');
+
+        foreach ([null, UploadedFile::fake()->create('proof.pdf', 10, 'application/pdf'),
+            new UploadedFile($disguised->getPathname(), 'proof.jpg', 'image/jpeg', null, true),
+            UploadedFile::fake()->image('proof.jpg')->size(2049),
+            UploadedFile::fake()->image('proof.gif'),
+        ] as $file) {
+            $this->post(route('registrations.store', $event), [...$payload, 'transfer_proof' => $file])
+                ->assertSessionHasErrors('transfer_proof');
+        }
+
+        $this->assertDatabaseCount('registrations', 0);
+        $this->assertSame([], Storage::disk('local')->allFiles());
+    }
+
+    public function test_transfer_proof_accepts_exactly_two_mb_and_failed_registration_leaves_no_extra_file(): void
+    {
+        $event = $this->event();
+        $payload = [
+            'name' => 'Sari', 'email' => 'sari@example.com', 'phone' => '08123456789',
+            'gender' => 'female', 'data_consent' => '1',
+        ];
+        $this->post(route('registrations.store', $event), [
+            ...$payload, 'transfer_proof' => UploadedFile::fake()->image('proof.png')->size(2048),
+        ])->assertSessionHasNoErrors();
+        $this->post(route('registrations.store', $event), [
+            ...$payload, 'transfer_proof' => UploadedFile::fake()->image('duplicate.png'),
+        ])->assertSessionHasErrors('email');
+
+        $this->assertDatabaseCount('registrations', 1);
+        $this->assertCount(1, Storage::disk('local')->allFiles());
     }
 
     public function test_email_can_only_register_once_per_event_but_can_register_again_on_other_event(): void
@@ -47,7 +101,7 @@ class RegistrationFlowTest extends TestCase
             'email' => 'sari@example.com',
             'phone' => '08123456789',
             'gender' => 'female',
-            'data_consent' => '1',
+            'data_consent' => '1', 'transfer_proof' => UploadedFile::fake()->image('proof.jpg'),
         ];
 
         $this->post(route('registrations.store', $event), $payload)->assertRedirect();
@@ -65,7 +119,7 @@ class RegistrationFlowTest extends TestCase
         $event = $this->event(['capacity_type' => Event::CAPACITY_LIMITED, 'capacity' => 1]);
         $payload = [
             'name' => 'Peserta Pertama', 'email' => 'first@example.com', 'phone' => '08123456789',
-            'gender' => 'male', 'data_consent' => '1',
+            'gender' => 'male', 'data_consent' => '1', 'transfer_proof' => UploadedFile::fake()->image('proof.jpg'),
         ];
         $this->post(route('registrations.store', $event), $payload)->assertRedirect();
 

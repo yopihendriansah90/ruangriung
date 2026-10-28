@@ -12,9 +12,13 @@ class Registration extends Model
     use HasFactory;
 
     public const STATUS_REGISTERED = 'registered';
+
     public const STATUS_CANCELLED = 'cancelled';
+
     public const INVITATION_PENDING = 'pending';
+
     public const INVITATION_SENT = 'sent';
+
     public const INVITATION_FAILED = 'failed';
 
     protected $fillable = [
@@ -28,6 +32,7 @@ class Registration extends Model
         'organization',
         'notes',
         'referral_source',
+        'transfer_proof_path',
         'data_consent_at',
         'status',
         'invitation_status',
