@@ -27,7 +27,7 @@
                 <div class="mx-auto aspect-[4/5] max-w-[520px] overflow-hidden bg-[#e8f2f3]">
                     @if ($poster)
                         <button type="button" data-poster-open class="group relative block h-full w-full cursor-zoom-in" aria-label="Perbesar poster {{ $event->name }}">
-                            <img src="{{ $poster }}" alt="Poster {{ $event->name }}" class="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]">
+                            <img src="{{ $poster }}" alt="Poster {{ $event->name }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]">
                             <span class="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#104b68] shadow-lg transition group-hover:bg-[#65c6f1]" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
                         </button>
                     @else

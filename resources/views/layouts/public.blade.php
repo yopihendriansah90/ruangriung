@@ -41,12 +41,12 @@
                 <a href="{{ route('home') }}" class="transition hover:text-[#147eaf]">Beranda</a>
                 <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="transition hover:text-[#147eaf]">Event</a>
                 <a href="{{ route('home') }}#cerita" class="transition hover:text-[#147eaf]">Cerita</a>
-                <a href="{{ route('home') }}#tentang" class="transition hover:text-[#147eaf]">Tentang Ruangriung</a>
+                <a href="{{ route('home') }}#tentang" class="transition hover:text-[#147eaf]">Tentang</a>
             </nav>
 
             <div class="flex items-center gap-2">
                 <a href="{{ route('events.index', ['period' => 'all']) }}" class="btn-primary hidden lg:inline-flex">
-                    Jelajahi Event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    Jelajahi Event
                 </a>
                 <button type="button" class="flex h-11 w-11 items-center justify-center rounded-xl border border-[#bfd8df] bg-white text-[#104b68] lg:hidden" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="public-mobile-menu" data-public-menu-button>
                     <i class="fa-solid fa-bars" aria-hidden="true"></i>
@@ -59,8 +59,8 @@
                 <a href="{{ route('home') }}" class="rounded-xl px-3 py-3 hover:bg-white hover:text-[#147eaf]">Beranda</a>
                 <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="rounded-xl px-3 py-3 hover:bg-white hover:text-[#147eaf]">Event</a>
                 <a href="{{ route('home') }}#cerita" class="rounded-xl px-3 py-3 hover:bg-white hover:text-[#147eaf]">Cerita</a>
-                <a href="{{ route('home') }}#tentang" class="rounded-xl px-3 py-3 hover:bg-white hover:text-[#147eaf]">Tentang Ruangriung</a>
-                <a href="{{ route('events.index', ['period' => 'all']) }}" class="btn-primary mt-2">Jelajahi Event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                <a href="{{ route('home') }}#tentang" class="rounded-xl px-3 py-3 hover:bg-white hover:text-[#147eaf]">Tentang</a>
+                <a href="{{ route('events.index', ['period' => 'all']) }}" class="btn-primary mt-2">Jelajahi Event</a>
             </div>
         </nav>
     </header>
@@ -77,45 +77,66 @@
         @yield('content')
     </main>
 
-    <footer id="tentang" class="border-t border-[#d7e1df] bg-[#103f56] text-white">
-        <div class="public-container grid gap-12 py-14 md:grid-cols-[1.35fr_0.65fr_0.8fr] lg:py-18">
+    <footer id="tentang" class="mt-16 border-t border-[#d7e1df] bg-[#103f56] text-white lg:mt-24">
+        <div class="public-container grid gap-12 border-b border-white/10 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_1.1fr_1fr] lg:py-16">
             <div>
                 <a href="{{ route('home') }}" class="flex w-fit items-center gap-3 rounded-lg">
                     <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-white">
                         <img src="{{ asset('images/ruang-riung-icon.png') }}" alt="" class="h-10 w-10 object-contain">
                     </span>
-                    <span class="text-sm font-extrabold uppercase tracking-[0.12em]">Ruang Riung</span>
+                    <span class="font-display text-base font-bold tracking-wide">Ruang Riung</span>
                 </a>
-                <p class="mt-5 max-w-md text-sm leading-7 text-[#c6dbe1]">Ruang aman untuk berbagi cerita, membangun koneksi yang sehat, dan bertumbuh bersama melalui pertemuan komunitas yang bermakna.</p>
-                @if ($adminWhatsAppUrl)
-                    <a href="{{ $adminWhatsAppUrl }}" target="_blank" rel="noopener" class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#65c6f1] transition hover:text-white">
-                        <i class="fa-brands fa-whatsapp text-lg" aria-hidden="true"></i> Hubungi admin
-                    </a>
-                @endif
+                <p class="mt-5 max-w-sm text-sm leading-7 text-[#c6dbe1]">Ruang aman untuk berbagi cerita, membangun koneksi yang sehat, dan bertumbuh bersama melalui pertemuan komunitas yang bermakna.</p>
+                <p class="mt-6 flex items-start gap-2.5 text-sm leading-7 text-[#c6dbe1]">
+                    <i class="fa-solid fa-location-dot mt-1.5 text-sm text-[#65c6f1]" aria-hidden="true"></i>
+                    <span>Tasikmalaya, Priangan Timur<br>Jawa Barat, Indonesia</span>
+                </p>
             </div>
 
             <nav aria-label="Navigasi footer">
                 <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#65c6f1]">Jelajahi</p>
-                <ul class="mt-5 space-y-3 text-sm font-semibold text-[#d7e8ec]">
-                    <li><a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a></li>
-                    <li><a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="transition hover:text-white">Event mendatang</a></li>
-                    <li><a href="{{ route('events.index', ['period' => 'past']) }}" class="transition hover:text-white">Cerita sebelumnya</a></li>
+                <ul class="mt-5 space-y-3 text-sm font-medium text-[#d7e8ec]">
+                    <li><a href="{{ route('home') }}" class="inline-flex items-center gap-2 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Beranda</a></li>
+                    <li><a href="{{ route('events.index') }}" class="inline-flex items-center gap-2 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Semua event</a></li>
+                    <li><a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="inline-flex items-center gap-2 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Event mendatang</a></li>
+                    <li><a href="{{ route('events.index', ['period' => 'past']) }}" class="inline-flex items-center gap-2 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Cerita sebelumnya</a></li>
                 </ul>
             </nav>
 
+            <nav aria-label="Kategori populer" class="hidden sm:block">
+                <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#65c6f1]">Kategori populer</p>
+                <div class="mt-5 flex flex-wrap gap-2">
+                    @foreach (['komunitas-networking', 'seminar-workshop', 'olahraga', 'pendidikan', 'wisata-rekreasi'] as $footerCategory)
+                        <a href="{{ route('events.index', ['category' => $footerCategory]) }}" class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-[#d7e8ec] transition hover:border-white/40 hover:bg-white/10 hover:text-white">
+                            <i class="{{ \App\Models\Event::CATEGORIES[$footerCategory]['icon'] }} text-[10px] text-[#65c6f1]" aria-hidden="true"></i>
+                            {{ \App\Models\Event::CATEGORIES[$footerCategory]['label'] }}
+                        </a>
+                    @endforeach
+                </div>
+            </nav>
+
             <div>
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#65c6f1]">Temukan kami</p>
-                <p class="mt-5 flex items-start gap-3 text-sm leading-7 text-[#d7e8ec]">
-                    <i class="fa-solid fa-location-dot mt-1 text-[#65c6f1]" aria-hidden="true"></i>
-                    <span>Tasikmalaya, Priangan Timur<br>Jawa Barat, Indonesia</span>
+                <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#65c6f1]">Hubungi kami</p>
+                @if ($adminWhatsAppUrl)
+                    <a href="{{ $adminWhatsAppUrl }}" target="_blank" rel="noopener" class="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#147eaf] px-5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#65c6f1] hover:text-[#103f56]">
+                        <i class="fa-brands fa-whatsapp text-lg" aria-hidden="true"></i> Chat admin
+                    </a>
+                @else
+                    <p class="mt-5 text-sm leading-7 text-[#c6dbe1] sm:hidden">Kontak admin belum tersedia.</p>
+                @endif
+                <p class="mt-5 hidden text-sm leading-7 text-[#c6dbe1] sm:block">Ada pertanyaan seputar event atau ingin berkolaborasi? Tim kami siap membantu.</p>
+                <p class="mt-6 hidden items-center gap-2.5 text-xs text-[#9fbfc8] sm:flex">
+                    <i class="fa-regular fa-clock text-[#65c6f1]" aria-hidden="true"></i>
+                    <span>Respon cepat setiap hari, pukul 08.00 – 20.00 WIB</span>
                 </p>
             </div>
         </div>
 
-        <div class="border-t border-white/10">
-            <div class="public-container flex flex-col items-center justify-between gap-2 py-5 text-center text-xs text-[#9fbfc8] sm:flex-row sm:text-left">
-                <p>© {{ date('Y') }} Ruang Riung.</p>
-                <p>Dibuat oleh <a href="https://yopihendriansah.com" target="_blank" rel="noopener" class="font-bold text-[#65c6f1] hover:text-white">Yopi Hendriansah</a>.</p>
+        <div class="bg-[#0a2f42]">
+            <div class="public-container flex flex-col items-center justify-between gap-3 py-5 text-center text-xs text-[#9fbfc8] sm:flex-row sm:text-left">
+                <p>© {{ date('Y') }} Ruang Riung. Seluruh hak cipta dilindungi.</p>
+                <p class="hidden lg:block">Dirancang untuk mempertemukan komunitas.</p>
+                <p>Dibuat oleh <a href="https://yopihendriansah.com" target="_blank" rel="noopener" class="font-bold text-[#65c6f1] transition hover:text-white">Yopi Hendriansah</a>.</p>
             </div>
         </div>
     </footer>

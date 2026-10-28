@@ -32,7 +32,7 @@
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-Dubhh9df.css",
+    "file": "assets/app-CmGp3evz.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -40,12 +40,20 @@
       "app.css"
     ]
   },
-  "resources/fonts/InstrumentSans-Variable.ttf": {
-    "file": "assets/InstrumentSans-Variable-s12UeAcm.ttf",
-    "src": "resources/fonts/InstrumentSans-Variable.ttf"
+  "resources/fonts/DMSans-Italic-Variable.woff2": {
+    "file": "assets/DMSans-Italic-Variable-C8i6y2Ft.woff2",
+    "src": "resources/fonts/DMSans-Italic-Variable.woff2"
+  },
+  "resources/fonts/DMSans-Variable.woff2": {
+    "file": "assets/DMSans-Variable-Bf69Tn_J.woff2",
+    "src": "resources/fonts/DMSans-Variable.woff2"
+  },
+  "resources/fonts/Inter-Variable.woff2": {
+    "file": "assets/Inter-Variable-BwkfbSeq.woff2",
+    "src": "resources/fonts/Inter-Variable.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-B0iNC6Hn.js",
+    "file": "assets/app-DB-h6tWw.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,

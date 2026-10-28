@@ -9,7 +9,7 @@
     <a href="{{ route('events.show', $event) }}" class="block focus:outline-none" aria-label="Lihat detail {{ $event->name }}">
         <div class="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] bg-[#e8f2f3]">
             @if ($poster)
-                <img src="{{ $poster }}" alt="Poster {{ $event->name }}" class="h-full w-full object-contain transition duration-500 group-hover:scale-[1.025]" loading="lazy" decoding="async">
+                <img src="{{ $poster }}" alt="Poster {{ $event->name }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.025]" loading="lazy" decoding="async">
             @else
                 <div class="flex h-full flex-col items-center justify-center gap-3 px-6 text-center text-[#6f8d91]">
                     <i class="fa-regular fa-image text-3xl" aria-hidden="true"></i>

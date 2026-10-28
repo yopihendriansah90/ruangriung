@@ -18,7 +18,7 @@
     <aside class="overflow-hidden bg-[#103f56] text-white lg:sticky lg:top-28">
         <div class="aspect-[4/5] bg-[#dfecee]">
             @if ($poster)
-                <img src="{{ $poster }}" alt="Poster {{ $event->name }}" class="h-full w-full object-contain">
+                <img src="{{ $poster }}" alt="Poster {{ $event->name }}" class="h-full w-full object-cover">
             @else
                 <div class="flex h-full flex-col items-center justify-center gap-3 text-[#496d78]">
                     <i class="fa-regular fa-image text-4xl" aria-hidden="true"></i>

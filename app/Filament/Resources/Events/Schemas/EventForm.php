@@ -23,6 +23,11 @@ class EventForm
             ->components([
                 TextInput::make('name')->label('Nama event')->required()->maxLength(255)->live(onBlur: true)->afterStateUpdated(fn (Set $set, ?string $state): mixed => $set('slug', Str::slug($state ?? ''))),
                 TextInput::make('slug')->label('Slug URL')->required()->maxLength(255)->unique(ignoreRecord: true),
+                Select::make('category')
+                    ->label('Kategori')
+                    ->options(Event::categoryOptions())
+                    ->default('lainnya')
+                    ->required(),
                 DatePicker::make('event_date')->label('Tanggal event')->required()->native(false),
                 TimePicker::make('start_time')->label('Jam mulai')->required()->seconds(false),
                 TimePicker::make('end_time')->label('Jam selesai')->seconds(false),

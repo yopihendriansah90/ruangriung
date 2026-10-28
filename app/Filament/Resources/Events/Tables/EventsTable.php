@@ -23,6 +23,11 @@ class EventsTable
                     ->rowIndex()
                     ->alignCenter(),
                 TextColumn::make('name')->label('Event')->searchable()->sortable()->wrap(),
+                TextColumn::make('category')
+                    ->label('Kategori')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => Event::CATEGORIES[$state]['label'] ?? 'Lainnya')
+                    ->color('info'),
                 TextColumn::make('event_date')->label('Tanggal')->date('d M Y')->sortable(),
                 TextColumn::make('status')
                     ->label('Status')
@@ -52,6 +57,7 @@ class EventsTable
                     Event::STATUS_PUBLISHED => 'Published',
                     Event::STATUS_CLOSED => 'Closed',
                 ]),
+                SelectFilter::make('category')->label('Kategori')->options(Event::categoryOptions()),
             ])
             ->recordActions([
                 ActionGroup::make([

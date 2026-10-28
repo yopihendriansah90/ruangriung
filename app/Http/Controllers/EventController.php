@@ -15,7 +15,11 @@ class EventController extends Controller
         $search = trim((string) $request->query('search'));
         $requestedPeriod = (string) $request->query('period', 'all');
         $period = in_array($requestedPeriod, ['all', 'upcoming', 'past'], true) ? $requestedPeriod : 'all';
-        $isFiltered = $search !== '' || $request->has('period');
+        $category = (string) $request->query('category');
+        if ($category !== '' && ! array_key_exists($category, Event::CATEGORIES)) {
+            $category = '';
+        }
+        $isFiltered = $search !== '' || $request->has('period') || $request->has('category');
 
         if ($isFiltered) {
             $events = $this->publicEventsQuery()
@@ -27,6 +31,7 @@ class EventController extends Controller
                             ->orWhere('location_address', 'like', '%'.$search.'%');
                     });
                 })
+                ->when($category !== '', fn (Builder $query): Builder => $query->where('category', $category))
                 ->when($period === 'upcoming', fn (Builder $query): Builder => $query->whereDate('event_date', '>=', today()))
                 ->when($period === 'past', fn (Builder $query): Builder => $query->whereDate('event_date', '<', today()))
                 ->when(
@@ -44,6 +49,7 @@ class EventController extends Controller
                 'pastEvents' => collect(),
                 'search' => $search,
                 'period' => $period,
+                'category' => $category,
                 'isFiltered' => true,
                 'title' => 'Jelajahi Event — Ruang Riung',
             ]);
@@ -80,6 +86,7 @@ class EventController extends Controller
             'pastEvents' => $pastEvents,
             'search' => '',
             'period' => 'all',
+            'category' => '',
             'isFiltered' => false,
             'title' => 'Ruang Riung — Event dan Pertemuan Komunitas',
         ]);

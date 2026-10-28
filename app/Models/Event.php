@@ -23,9 +23,25 @@ class Event extends Model implements HasMedia
 
     public const CAPACITY_UNLIMITED = 'unlimited';
 
+    /** Daftar kategori event, tampil di beranda & halaman event. */
+    public const CATEGORIES = [
+        '' => ['label' => 'Semua Event', 'icon' => 'fa-solid fa-grip'],
+        'seminar-workshop' => ['label' => 'Seminar & Workshop', 'icon' => 'fa-solid fa-microphone'],
+        'komunitas-networking' => ['label' => 'Komunitas & Networking', 'icon' => 'fa-solid fa-user-group'],
+        'keagamaan' => ['label' => 'Keagamaan', 'icon' => 'fa-solid fa-mosque'],
+        'olahraga' => ['label' => 'Olahraga', 'icon' => 'fa-solid fa-person-running'],
+        'seni-budaya' => ['label' => 'Seni & Budaya', 'icon' => 'fa-solid fa-palette'],
+        'pendidikan' => ['label' => 'Pendidikan', 'icon' => 'fa-solid fa-graduation-cap'],
+        'kompetisi-lomba' => ['label' => 'Kompetisi & Lomba', 'icon' => 'fa-solid fa-trophy'],
+        'wisata-rekreasi' => ['label' => 'Wisata & Rekreasi', 'icon' => 'fa-solid fa-mountain-sun'],
+        'santun-anak-muda' => ['label' => 'Santun Anak Muda', 'icon' => 'fa-solid fa-comments'],
+        'lainnya' => ['label' => 'Lainnya', 'icon' => 'fa-solid fa-ellipsis'],
+    ];
+
     protected $fillable = [
         'name',
         'slug',
+        'category',
         'event_date',
         'start_time',
         'end_time',
@@ -45,6 +61,24 @@ class Event extends Model implements HasMedia
             'event_date' => 'date',
             'capacity' => 'integer',
         ];
+    }
+
+    public function getCategoryLabelAttribute(): string
+    {
+        return self::CATEGORIES[$this->category]['label'] ?? self::CATEGORIES['lainnya']['label'];
+    }
+
+    public function getCategoryIconAttribute(): string
+    {
+        return self::CATEGORIES[$this->category]['icon'] ?? self::CATEGORIES['lainnya']['icon'];
+    }
+
+    public static function categoryOptions(): array
+    {
+        return collect(self::CATEGORIES)
+            ->filter(fn (array $item, string $key): bool => $key !== '')
+            ->mapWithKeys(fn (array $item, string $key): array => [$key => $item['label']])
+            ->all();
     }
 
     public function registrations(): HasMany

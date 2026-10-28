@@ -55,7 +55,7 @@
 
     <aside class="overflow-hidden bg-[#103f56] text-white lg:sticky lg:top-28">
         @if ($poster)
-            <div class="aspect-[4/5] bg-[#dfecee]"><img src="{{ $poster }}" alt="Poster {{ $event->name }}" class="h-full w-full object-contain"></div>
+            <div class="aspect-[4/5] bg-[#dfecee]"><img src="{{ $poster }}" alt="Poster {{ $event->name }}" class="h-full w-full object-cover"></div>
         @endif
         <div class="p-6 sm:p-8">
             <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#65c6f1]">Ringkasan event</p>
