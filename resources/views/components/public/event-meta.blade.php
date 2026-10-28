@@ -18,7 +18,7 @@
             <i class="fa-solid fa-users mt-1 w-4 shrink-0 text-center text-[#147eaf]" aria-hidden="true"></i>
             <span>
                 @if ($event->capacity_type === \App\Models\Event::CAPACITY_LIMITED)
-                    {{ $event->isFull() ? 'Kapasitas sudah penuh' : 'Tersisa '.number_format($event->remainingSeats()).' dari '.number_format($event->capacity).' tempat' }}
+                    {{ $event->isFull() ? 'Kapasitas sudah penuh' : 'Tersisa '.number_format($event->remainingSeats()).' dari '.number_format($event->capacity).' peserta' }}
                 @else
                     Kapasitas tidak dibatasi
                 @endif

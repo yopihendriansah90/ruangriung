@@ -42,7 +42,7 @@
     h1, h2, h3, h4, h5, h6 { @apply font-display; }
     ::selection { @apply bg-[#65c6f1]/40 text-[#103f56]; }
     a, button, input, select, textarea { @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#147eaf] focus-visible:ring-offset-2; }
-    .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+    .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     main > section + section { @apply mt-2.5; }
 }

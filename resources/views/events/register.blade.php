@@ -5,7 +5,7 @@
 
 <section class="border-b border-[#d7e1df] bg-[#edf5f3]">
     <div class="public-container py-10 sm:py-14">
-        <a href="{{ route('events.show', $event) }}" class="inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke detail event</a>
+        <a href="{{ route('events.show', $event) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke detail event</a>
         <div class="mt-8 max-w-3xl">
             <p class="section-eyebrow">Pendaftaran peserta</p>
             <h1 class="section-title">Siapkan tempatmu di pertemuan ini</h1>

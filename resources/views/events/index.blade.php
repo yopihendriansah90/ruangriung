@@ -15,65 +15,37 @@
     $adminContactUrl = app(\App\Services\AdminContactService::class)->whatsappUrl();
 @endphp
 
-@if (! $isFiltered)
+@if (! $isFiltered && $banners->isNotEmpty())
     <section class="mt-2" aria-label="Banner informasi">
         <div class="public-container relative">
             <div class="group relative overflow-hidden rounded-2xl" data-banner-slider data-interval="6000">
-                <div class="flex transition-transform duration-500 ease-out" data-banner-track>
-                    {{-- Slide 1: Ajakan jelajah event --}}
-                    <div class="relative min-w-full overflow-hidden bg-gradient-to-br from-[#104b68] via-[#12507a] to-[#147eaf] px-6 py-14 sm:px-12 lg:px-24 sm:py-16 lg:h-[380px] lg:py-0">
-                        <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-white/10" aria-hidden="true"></div>
-                        <div class="absolute -bottom-20 right-32 h-48 w-48 rounded-full bg-[#65c6f1]/20" aria-hidden="true"></div>
-                        <div class="relative z-10 flex h-full flex-col items-start justify-center gap-6">
-                            <p class="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-[#cfeaf6]">Ruangriung</p>
-                            <h2 class="max-w-2xl text-3xl font-bold leading-[1.08] tracking-[-0.03em] text-white sm:text-4xl lg:text-5xl">Temukan pertemuan yang membuat kita lebih dekat.</h2>
-                            <p class="max-w-xl text-sm leading-7 text-[#c6dbe1] sm:text-base">Jelajahi ruang belajar, berbagi, dan bertumbuh bersama komunitas Ruang Riung.</p>
-                            <a href="#event-mendatang" class="mt-1 inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-[#104b68] transition hover:-translate-y-0.5 hover:bg-[#e8f6fb]">Lihat event terdekat <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-
-                    {{-- Slide 2: Cara ikut event --}}
-                    <div class="relative min-w-full overflow-hidden bg-gradient-to-br from-[#147eaf] to-[#65c6f1] px-6 py-14 sm:px-12 lg:px-24 sm:py-16 lg:h-[380px] lg:py-0">
-                        <div class="absolute -left-24 top-1/3 h-64 w-64 rounded-full bg-white/10" aria-hidden="true"></div>
-                        <div class="relative z-10 flex h-full flex-col items-start justify-center gap-6">
-                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-white/80">Sederhana dari awal sampai hadir</p>
-                            <h2 class="max-w-2xl text-3xl font-bold leading-[1.08] tracking-[-0.03em] text-white sm:text-4xl">Tiga langkah untuk ikut berkumpul.</h2>
-                            <ol class="hidden gap-3 sm:flex">
-                                @foreach (['Pilih event', 'Isi pendaftaran', 'Tunjukkan QR Code'] as $stepText)
-                                    <li class="flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-bold text-white backdrop-blur-sm">
-                                        <i class="fa-regular fa-circle-check" aria-hidden="true"></i> {{ $stepText }}
-                                    </li>
-                                @endforeach
-                            </ol>
-                            <a href="#event-mendatang" class="mt-1 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#103f56] px-5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#104b68]">Mulai sekarang <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-
-                    {{-- Slide 3: Tanya admin --}}
-                    <div class="relative min-w-full overflow-hidden bg-gradient-to-br from-[#65c6f1] to-[#46b4e5] px-6 py-14 sm:px-12 lg:px-24 sm:py-16 lg:h-[380px] lg:py-0">
-                        <div class="absolute -right-20 bottom-0 h-56 w-56 rounded-full border-[14px] border-white/15" aria-hidden="true"></div>
-                        <div class="relative z-10 flex h-full flex-col items-start justify-center gap-6">
-                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-white/85">Butuh bantuan?</p>
-                            <h2 class="max-w-2xl text-3xl font-bold leading-[1.08] tracking-[-0.03em] text-[#103f56] sm:text-4xl">Masih mencari pertemuan yang tepat untukmu?</h2>
-                            <p class="max-w-xl text-sm leading-7 text-[#255b70] sm:text-base">Tanya langsung ke admin Ruang Riung, kami siap membantu.</p>
-                            @if ($adminContactUrl)
-                                <a href="{{ $adminContactUrl }}" target="_blank" rel="noopener" class="mt-1 inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#103f56] px-5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#104b68]"><i class="fa-brands fa-whatsapp text-lg" aria-hidden="true"></i> Tanya admin</a>
+                <div class="flex aspect-[16/5] transition-transform duration-500 ease-out" data-banner-track>
+                    @foreach ($banners as $banner)
+                        <div class="relative min-w-full overflow-hidden bg-[#104b68]">
+                            @if ($banner->cta_url)
+                                <a href="{{ $banner->cta_url }}" target="_blank" rel="noopener" aria-label="{{ $banner->name }}" class="block h-full w-full">
+                                    <img src="{{ $banner->imageUrl() }}" alt="{{ $banner->name }}" class="h-full w-full object-cover">
+                                </a>
+                            @else
+                                <img src="{{ $banner->imageUrl() }}" alt="{{ $banner->name }}" class="h-full w-full object-cover">
                             @endif
                         </div>
-                    </div>
+                    @endforeach
                 </div>
 
-                <button type="button" data-banner-prev class="absolute left-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#496d78] shadow-lg transition hover:text-[#104b68] md:flex lg:left-8" aria-label="Banner sebelumnya">
-                    <i class="fa-solid fa-chevron-left text-sm" aria-hidden="true"></i>
-                </button>
-                <button type="button" data-banner-next class="absolute right-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#496d78] shadow-lg transition hover:text-[#104b68] md:flex lg:right-8" aria-label="Banner berikutnya">
-                    <i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
-                </button>
-                <div class="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-                    <button type="button" data-banner-dot class="h-2 w-2 rounded-full bg-white/50 transition-all duration-200" aria-label="Ke banner 1"></button>
-                    <button type="button" data-banner-dot class="h-2 w-2 rounded-full bg-white/50 transition-all duration-200" aria-label="Ke banner 2"></button>
-                    <button type="button" data-banner-dot class="h-2 w-2 rounded-full bg-white/50 transition-all duration-200" aria-label="Ke banner 3"></button>
-                </div>
+                @if ($banners->count() > 1)
+                    <button type="button" data-banner-prev class="absolute left-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#496d78] shadow-lg transition hover:text-[#104b68] md:flex lg:left-8" aria-label="Banner sebelumnya">
+                        <i class="fa-solid fa-chevron-left text-sm" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" data-banner-next class="absolute right-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#496d78] shadow-lg transition hover:text-[#104b68] md:flex lg:right-8" aria-label="Banner berikutnya">
+                        <i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
+                    </button>
+                    <div class="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+                        @foreach ($banners as $bannerDot)
+                            <button type="button" data-banner-dot class="h-2 w-2 rounded-full bg-white/50 transition-all duration-200" aria-label="Ke banner {{ $loop->iteration }}"></button>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
     </section>
@@ -119,7 +91,7 @@
                     <p class="section-eyebrow">Jangan sampai terlewat</p>
                     <h2 class="section-title">Event terdekat</h2>
                 </div>
-                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
             </div>
             <article class="mt-10 grid overflow-hidden rounded-[1.75rem] bg-white shadow-[0_24px_70px_rgba(16,75,104,0.13)] sm:grid-cols-[minmax(220px,0.8fr)_1fr]">
                 <div class="aspect-[4/5] bg-[#dfecee] sm:aspect-auto sm:min-h-[450px]">
@@ -146,14 +118,14 @@
         </section>
     @endif
 
-    <section id="event-mendatang" class="public-container scroll-mt-28 pt-20 lg:pt-24">
+    <section id="event-mendatang" class="public-container scroll-mt-28 pt-20 pb-16 lg:pt-24 lg:pb-24">
         <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
             <div>
                 <p class="section-eyebrow">Buat ruang di kalendermu</p>
                 <h2 class="section-title">Event yang akan datang</h2>
                 <p class="section-copy">Pilih pertemuan yang terasa dekat denganmu, lalu hadir dan bertumbuh bersama.</p>
             </div>
-            <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+            <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </div>
 
         @if ($upcomingEvents->isNotEmpty())
@@ -167,7 +139,7 @@
         @endif
     </section>
 
-    <section class="bg-[#103f56] py-20 text-white lg:py-24">
+    <section class="mt-10 bg-[#103f56] py-20 text-white sm:mt-14 lg:py-24">
         <div class="public-container">
             <p class="text-xs font-bold uppercase tracking-[0.2em] text-[#65c6f1] sm:text-sm">Sederhana dari awal sampai hadir</p>
             <h2 class="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-[-0.025em] sm:text-4xl">Tiga langkah untuk ikut berkumpul</h2>

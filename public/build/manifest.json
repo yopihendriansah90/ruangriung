@@ -32,7 +32,7 @@
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CmGp3evz.css",
+    "file": "assets/app-DlYzuQa5.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -53,7 +53,7 @@
     "src": "resources/fonts/Inter-Variable.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-DB-h6tWw.js",
+    "file": "assets/app-BTRA_ddc.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,

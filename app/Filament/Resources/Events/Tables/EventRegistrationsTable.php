@@ -6,6 +6,9 @@ use App\Models\Registration;
 use App\Services\InvitationService;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
@@ -92,8 +95,30 @@ class EventRegistrationsTable
                             }
                         }),
                     EditAction::make(),
+                    self::deleteAction(),
+                ]),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
+                        ->label('Hapus yang dipilih')
+                        ->modalHeading('Hapus peserta terpilih')
+                        ->modalDescription('Semua data peserta yang dipilih akan dihapus permanen beserta data check-in-nya. Tindakan ini tidak bisa dibatalkan.')
+                        ->modalSubmitActionLabel('Ya, hapus')
+                        ->successNotification(fn (): Notification => Notification::make()->title('Peserta terpilih berhasil dihapus.')->success()),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
+    }
+
+    public static function deleteAction(): DeleteAction
+    {
+        return DeleteAction::make()
+            ->label('Hapus peserta')
+            ->requiresConfirmation()
+            ->modalHeading('Hapus peserta')
+            ->modalDescription(fn (Registration $record): string => "Yakin ingin menghapus data peserta {$record->name}? Data check-in peserta ini juga ikut terhapus. Tindakan ini tidak bisa dibatalkan.")
+            ->modalSubmitActionLabel('Ya, hapus')
+            ->successNotification(fn (Registration $record): Notification => Notification::make()->title("Peserta {$record->name} berhasil dihapus.")->success());
     }
 }

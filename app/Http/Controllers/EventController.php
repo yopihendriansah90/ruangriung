@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Event;
 use App\Models\Registration;
 use Illuminate\Database\Eloquent\Builder;
@@ -47,6 +48,7 @@ class EventController extends Controller
                 'featuredEvent' => null,
                 'upcomingEvents' => collect(),
                 'pastEvents' => collect(),
+                'banners' => collect(),
                 'search' => $search,
                 'period' => $period,
                 'category' => $category,
@@ -79,11 +81,15 @@ class EventController extends Controller
             ->limit(3)
             ->get();
 
+        // Banner iklan aktif, urut berdasarkan sort_order.
+        $banners = Banner::query()->enabled()->get();
+
         return view('events.index', [
             'events' => null,
             'featuredEvent' => $featuredEvent,
             'upcomingEvents' => $upcomingEvents,
             'pastEvents' => $pastEvents,
+            'banners' => $banners,
             'search' => '',
             'period' => 'all',
             'category' => '',

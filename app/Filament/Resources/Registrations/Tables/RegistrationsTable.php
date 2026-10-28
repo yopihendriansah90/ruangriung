@@ -2,10 +2,14 @@
 
 namespace App\Filament\Resources\Registrations\Tables;
 
+use App\Filament\Resources\Events\Tables\EventRegistrationsTable;
 use App\Models\Registration;
 use App\Services\InvitationService;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
@@ -92,6 +96,17 @@ class RegistrationsTable
                             }
                         }),
                     EditAction::make(),
+                    EventRegistrationsTable::deleteAction(),
+                ]),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
+                        ->label('Hapus yang dipilih')
+                        ->modalHeading('Hapus peserta terpilih')
+                        ->modalDescription('Semua data peserta yang dipilih akan dihapus permanen beserta data check-in-nya. Tindakan ini tidak bisa dibatalkan.')
+                        ->modalSubmitActionLabel('Ya, hapus')
+                        ->successNotification(fn (): Notification => Notification::make()->title('Peserta terpilih berhasil dihapus.')->success()),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');

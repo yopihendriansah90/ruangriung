@@ -2,15 +2,20 @@
 
 @php
     $status = match (true) {
+        $event->isEnded() => [
+            'label' => 'Sudah berakhir',
+            'icon' => 'fa-clock-rotate-left',
+            'class' => 'bg-amber-100 text-amber-800',
+        ],
+        $event->event_date?->isToday() => [
+            'label' => 'Sedang berlangsung',
+            'icon' => 'fa-play',
+            'class' => 'bg-emerald-100 text-emerald-700',
+        ],
         $event->status === \App\Models\Event::STATUS_CLOSED => [
             'label' => 'Pendaftaran ditutup',
             'icon' => 'fa-lock',
             'class' => 'bg-slate-100 text-slate-700',
-        ],
-        $event->isEnded() => [
-            'label' => 'Sudah berlangsung',
-            'icon' => 'fa-clock-rotate-left',
-            'class' => 'bg-amber-100 text-amber-800',
         ],
         $event->isFull() => [
             'label' => 'Kapasitas penuh',

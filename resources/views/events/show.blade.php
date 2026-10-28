@@ -20,7 +20,7 @@
 
 <section class="border-b border-[#d7e1df] bg-[#edf5f3]">
     <div class="public-container py-8 lg:py-14">
-        <a href="{{ route('events.index', ['period' => 'all']) }}" class="inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Semua event</a>
+        <a href="{{ route('events.index', ['period' => 'all']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Semua event</a>
 
         <article class="mt-7 grid overflow-hidden bg-white shadow-[0_24px_70px_rgba(16,75,104,0.1)] lg:grid-cols-[minmax(320px,0.82fr)_minmax(0,1.18fr)]">
             <div class="bg-[#dfecee] p-4 sm:p-6 lg:p-8">
@@ -46,7 +46,7 @@
                             <x-public.event-status-badge :event="$event" />
                         @endunless
                     </div>
-                    <h1 class="mt-6 max-w-3xl text-3xl font-bold leading-[1.08] tracking-[-0.035em] text-[#104b68] sm:text-4xl lg:text-5xl">{{ $event->name }}</h1>
+                    <h1 class="mt-6 max-w-3xl text-2xl font-bold leading-[1.15] tracking-[-0.03em] text-[#104b68] sm:text-3xl lg:text-4xl">{{ $event->name }}</h1>
                     <x-public.event-meta :event="$event" :show-capacity="true" class="mt-8 border-y border-[#d7e1df] py-7" />
 
                     @if ($event->location_address)
@@ -119,7 +119,7 @@
                     <p class="section-eyebrow">Lanjut berkumpul</p>
                     <h2 class="mt-3 text-3xl font-bold tracking-[-0.025em] text-[#104b68] sm:text-4xl">Event lain dari Ruangriung</h2>
                 </div>
-                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
             </div>
             <div class="mt-10 grid gap-x-7 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($recommendedEvents as $recommendedEvent)
@@ -131,6 +131,8 @@
 @endif
 
 @if ($isRegistrationOpen)
+    {{-- Spacer agar footer tidak tertutup CTA bar tetap di mobile --}}
+    <div class="h-[76px] lg:hidden" aria-hidden="true"></div>
     <div class="fixed inset-x-0 bottom-0 z-40 border-t border-[#bfd8df] bg-[#f7f5ef]/95 p-3 shadow-[0_-10px_30px_rgba(16,75,104,0.12)] backdrop-blur lg:hidden">
         <a href="{{ route('events.register', $event) }}" class="btn-primary w-full">Daftar sekarang <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>

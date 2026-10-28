@@ -4,7 +4,7 @@
 <section class="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
     <div class="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
-            <a href="{{ url('/admin') }}" class="inline-flex items-center gap-2 text-sm font-medium text-[#5d7d86] transition hover:text-[#147eaf]">
+            <a href="{{ url('/admin') }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-medium text-[#5d7d86] transition hover:text-[#147eaf]">
                 <x-heroicon-o-arrow-left class="h-4 w-4" />
                 Kembali ke dashboard
             </a>

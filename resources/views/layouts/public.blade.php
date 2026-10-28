@@ -95,11 +95,11 @@
 
             <nav aria-label="Navigasi footer">
                 <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#65c6f1]">Jelajahi</p>
-                <ul class="mt-5 space-y-3 text-sm font-medium text-[#d7e8ec]">
-                    <li><a href="{{ route('home') }}" class="inline-flex items-center gap-2 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Beranda</a></li>
-                    <li><a href="{{ route('events.index') }}" class="inline-flex items-center gap-2 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Semua event</a></li>
-                    <li><a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="inline-flex items-center gap-2 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Event mendatang</a></li>
-                    <li><a href="{{ route('events.index', ['period' => 'past']) }}" class="inline-flex items-center gap-2 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Cerita sebelumnya</a></li>
+                <ul class="mt-5 space-y-1 text-sm font-medium text-[#d7e8ec]">
+                    <li><a href="{{ route('home') }}" class="-my-1 inline-flex items-center gap-2 px-1 py-3 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Beranda</a></li>
+                    <li><a href="{{ route('events.index') }}" class="-my-1 inline-flex items-center gap-2 px-1 py-3 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Semua event</a></li>
+                    <li><a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="-my-1 inline-flex items-center gap-2 px-1 py-3 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Event mendatang</a></li>
+                    <li><a href="{{ route('events.index', ['period' => 'past']) }}" class="-my-1 inline-flex items-center gap-2 px-1 py-3 transition hover:text-white"><i class="fa-solid fa-chevron-right text-[9px] text-[#65c6f1]" aria-hidden="true"></i> Cerita sebelumnya</a></li>
                 </ul>
             </nav>
 

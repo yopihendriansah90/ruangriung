@@ -35,7 +35,7 @@ function initMenu() {
     });
 }
 
-// Carousel banner di beranda: panah, dots, autoplay, pause saat hover.
+// Carousel banner di beranda: panah, dots, autoplay, pause saat hover, swipe sentuhan.
 function initBannerSlider() {
     const slider = document.querySelector('[data-banner-slider]');
     if (!slider) return;
@@ -49,9 +49,11 @@ function initBannerSlider() {
     let index = 0;
     let timer = null;
 
-    const goTo = (target) => {
+    const goTo = (target, offsetPx = 0) => {
         index = ((target % slides) + slides) % slides;
-        track.style.transform = `translateX(-${index * 100}%)`;
+        track.style.transform = offsetPx === 0
+            ? `translateX(-${index * 100}%)`
+            : `translateX(calc(-${index * 100}% + ${offsetPx}px))`;
         dots.forEach((dot, dotIndex) => {
             const isActive = dotIndex === index;
             dot.style.width = isActive ? '1.25rem' : '0.5rem';
@@ -61,6 +63,7 @@ function initBannerSlider() {
     };
 
     const start = () => {
+        if (timer !== null) return;
         timer = window.setInterval(() => goTo(index + 1), interval);
     };
     const stop = () => {
@@ -72,7 +75,7 @@ function initBannerSlider() {
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     goTo(0);
-    if (!prefersReducedMotion) start();
+    if (!prefersReducedMotion && slides > 1) start();
 
     slider.querySelector('[data-banner-prev]')?.addEventListener('click', () => goTo(index - 1));
     slider.querySelector('[data-banner-next]')?.addEventListener('click', () => goTo(index + 1));
@@ -80,11 +83,85 @@ function initBannerSlider() {
 
     slider.addEventListener('mouseenter', stop);
     slider.addEventListener('mouseleave', () => {
-        if (!prefersReducedMotion) start();
+        if (!prefersReducedMotion && slides > 1) start();
     });
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) stop();
     });
+
+    // Swipe dengan sentuhan: geser horizontal untuk pindah slide,
+    // vertikal tetap men-scroll halaman. Klik dibatalkan jika jadi geseran.
+    if (slides > 1) {
+        let startX = 0;
+        let startY = 0;
+        let dx = 0;
+        let dragging = false;
+        let axis = null;
+        let moved = false;
+
+        const threshold = () => Math.max(50, slider.clientWidth * 0.15);
+
+        const beginDrag = (x, y) => {
+            startX = x;
+            startY = y;
+            dx = 0;
+            dragging = true;
+            axis = null;
+            moved = false;
+            stop();
+            track.style.transition = 'none';
+        };
+
+        const moveDrag = (x, y) => {
+            if (!dragging) return false;
+            dx = x - startX;
+            if (axis === null && (Math.abs(dx) > 8 || Math.abs(y - startY) > 8)) {
+                axis = Math.abs(dx) > Math.abs(y - startY) ? 'x' : 'y';
+            }
+            if (axis !== 'x') return false;
+            moved = true;
+            let offset = dx;
+            // Tahanan di ujung slide pertama/terakhir agar terasa seperti app native.
+            if ((index === 0 && dx > 0) || (index === slides - 1 && dx < 0)) offset *= 0.35;
+            goTo(index, offset);
+            return true;
+        };
+
+        const endDrag = () => {
+            if (!dragging) return;
+            dragging = false;
+            track.style.transition = '';
+            if (axis === 'x') {
+                if (dx <= -threshold()) goTo(index + 1);
+                else if (dx >= threshold()) goTo(index - 1);
+                else goTo(index);
+            }
+            if (!prefersReducedMotion) start();
+        };
+
+        slider.addEventListener('touchstart', (event) => {
+            if (event.touches.length !== 1) return;
+            beginDrag(event.touches[0].clientX, event.touches[0].clientY);
+        }, { passive: true });
+
+        slider.addEventListener('touchmove', (event) => {
+            if (event.touches.length !== 1) return;
+            const handled = moveDrag(event.touches[0].clientX, event.touches[0].clientY);
+            if (handled && event.cancelable) event.preventDefault();
+        }, { passive: false });
+
+        slider.addEventListener('touchend', endDrag);
+        slider.addEventListener('touchcancel', endDrag);
+
+        // Kalau jadinya geseran (bukan tap), batalkan klik pada tautan banner.
+        track.addEventListener('click', (event) => {
+            if (moved) {
+                event.preventDefault();
+                event.stopPropagation();
+                moved = false;
+            }
+        }, true);
+    }
 }
 
 // Gulir baris chips kategori dengan tombol panah.
