@@ -31,7 +31,7 @@ class ExportController extends Controller
     {
         $image = $qrCodeService->generate($registration);
 
-        $filename = str($registration->name)->slug().'-'.str($registration->event->name)->slug().'.png';
+        $filename = str($registration->name)->slug().'-'.str($registration->event->namePlain())->slug().'.png';
 
         return response($image, 200, [
             'Content-Type' => 'image/png',

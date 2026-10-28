@@ -127,7 +127,7 @@ class RegistrationQrCodeService
         $drawCentered('RUANG RIUNG', 418, 13, $blue, true);
         $nameEndY = $drawWrapped($normalize(mb_strimwidth($registration->name, 0, 80)), 452, 19, $navy, true, 380, 26, 2);
         $drawCentered('ID: '.$registration->registration_code, $nameEndY + 24, 13, $muted);
-        $drawWrapped($normalize($registration->event->name), $nameEndY + 50, 12, $muted, false, 380, 18, 3);
+        $drawWrapped($normalize($registration->event->namePlain()), $nameEndY + 50, 12, $muted, false, 380, 18, 3);
 
         ob_start();
         imagepng($canvas);
