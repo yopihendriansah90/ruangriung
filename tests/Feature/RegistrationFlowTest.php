@@ -27,7 +27,10 @@ class RegistrationFlowTest extends TestCase
 
     public function test_participant_can_register_and_see_whatsapp_invitation(): void
     {
-        $event = $this->event(['whatsapp_group_url' => 'https://chat.whatsapp.com/example']);
+        $event = $this->event([
+            'name' => 'Pertemuan<br>Ruang Riung',
+            'whatsapp_group_url' => 'https://chat.whatsapp.com/example',
+        ]);
 
         $response = $this->post(route('registrations.store', $event), [
             'name' => 'Budi MHC',
@@ -43,6 +46,8 @@ class RegistrationFlowTest extends TestCase
         $this->get(route('registrations.success', $registration))
             ->assertOk()
             ->assertSee('Sampai bertemu, Budi MHC!')
+            ->assertSee('Pertemuan Ruang Riung')
+            ->assertDontSee('Pertemuan<br>Ruang Riung')
             ->assertSee('https://chat.whatsapp.com/example');
         $this->assertSame('budi@example.com', $registration->email);
         Storage::disk('local')->assertExists($registration->transfer_proof_path);

@@ -8,6 +8,7 @@ use App\Models\Registration;
 use App\Models\User;
 use App\Services\WhatsAppInvitationUrlService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Tests\TestCase;
 
 class ExportTest extends TestCase
@@ -62,6 +63,17 @@ class ExportTest extends TestCase
 
         $this->assertStringStartsWith('https://wa.me/6281234567890?text=', $url);
         $this->assertStringContainsString(rawurlencode(route('registrations.qr-code', $registration)), $url);
+        $this->assertStringNotContainsString(rawurlencode('Yuk, gabung grup WhatsApp'), $url);
+
+        $registration->event->update([
+            'name' => 'Pertemuan<br>Ruang Riung',
+            'whatsapp_group_url' => 'https://chat.whatsapp.com/event-terkait',
+        ]);
+        $message = rawurldecode(app(WhatsAppInvitationUrlService::class)->make($registration));
+
+        $this->assertStringContainsString('Yuk, gabung grup WhatsApp event Pertemuan Ruang Riung', $message);
+        $this->assertStringContainsString('Grup WhatsApp event: https://chat.whatsapp.com/event-terkait', $message);
+        $this->assertStringNotContainsString('<br>', $message);
     }
 
     public function test_admin_whatsapp_invitation_redirect_marks_registration_as_sent(): void
@@ -147,7 +159,7 @@ class ExportTest extends TestCase
 
     private function readSheet(string $path): array
     {
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+        $spreadsheet = IOFactory::load($path);
 
         return $spreadsheet->getActiveSheet()->toArray();
     }

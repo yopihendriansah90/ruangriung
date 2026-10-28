@@ -11,7 +11,7 @@
         <span class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#104b68] text-3xl text-[#65c6f1] shadow-[0_14px_36px_rgba(16,75,104,0.18)]"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
         <p class="section-eyebrow mt-7">Pendaftaran berhasil</p>
         <h1 class="mx-auto mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-[-0.035em] text-[#104b68] sm:text-5xl">Sampai bertemu, {{ $registration->name }}!</h1>
-        <p class="mx-auto mt-5 max-w-2xl text-base leading-8 text-[#496d78]">Tempatmu di <strong class="text-[#104b68]">{{ $event->name }}</strong> sudah tercatat. Simpan informasi berikut agar perjalananmu menuju event tetap mudah.</p>
+        <p class="mx-auto mt-5 max-w-2xl text-base leading-8 text-[#496d78]">Tempatmu di <strong class="text-[#104b68]">{{ $event->namePlain() }}</strong> sudah tercatat. Simpan informasi berikut agar perjalananmu menuju event tetap mudah.</p>
     </div>
 </section>
 
@@ -55,11 +55,11 @@
 
     <aside class="overflow-hidden bg-[#103f56] text-white lg:sticky lg:top-28">
         @if ($poster)
-            <div class="aspect-[4/5] bg-[#dfecee]"><img src="{{ $poster }}" alt="Poster {{ $event->name }}" class="h-full w-full object-cover"></div>
+            <div class="aspect-[4/5] bg-[#dfecee]"><img src="{{ $poster }}" alt="Poster {{ $event->namePlain() }}" class="h-full w-full object-cover"></div>
         @endif
         <div class="p-6 sm:p-8">
             <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#65c6f1]">Ringkasan event</p>
-            <h2 class="mt-3 text-2xl font-bold leading-tight">{!! $event->titleHtml() !!}</h2>
+            <h2 class="mt-3 text-2xl font-bold leading-tight">{{ $event->namePlain() }}</h2>
             <div class="mt-6 space-y-3 text-sm leading-6 text-[#d7e8ec]">
                 <p class="flex gap-3"><i class="fa-regular fa-calendar mt-1 w-4 text-[#65c6f1]" aria-hidden="true"></i><span>{{ $event->event_date->translatedFormat('l, d F Y') }}</span></p>
                 <p class="flex gap-3"><i class="fa-regular fa-clock mt-1 w-4 text-[#65c6f1]" aria-hidden="true"></i><span>{{ $event->timeRange() }}</span></p>
