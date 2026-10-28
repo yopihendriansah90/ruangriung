@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Filament\Resources\Events\Pages\EditEvent;
 use App\Filament\Resources\Events\RelationManagers\RegistrationsRelationManager;
+use App\Filament\Resources\Registrations\Pages\ListRegistrations;
 use App\Models\Event;
 use App\Models\Registration;
 use App\Models\User;
@@ -92,5 +93,28 @@ class AdminPanelSmokeTest extends TestCase
             ->assertCanNotSeeTableRecords([$otherRegistration])
             ->assertSee('Peserta Event Ini')
             ->assertDontSee('Peserta Event Lain');
+
+        $modal = Livewire::test(ListRegistrations::class)
+            ->mountTableAction('view', $registration);
+        $schemaName = $modal->instance()->getMountedActionSchemaName();
+        $this->assertStringContainsString('Belum ada bukti transfer yang diunggah.', $modal->instance()->{$schemaName}->toHtml());
+
+        $registration->update(['transfer_proof_path' => 'transfer-proofs/test.jpg']);
+        $proofUrl = route('exports.transfer-proof', $registration);
+
+        $modal = Livewire::test(ListRegistrations::class)
+            ->mountTableAction('view', $registration);
+        $schemaName = $modal->instance()->getMountedActionSchemaName();
+        $html = $modal->instance()->{$schemaName}->toHtml();
+        $this->assertStringContainsString('Pratinjau bukti transfer', $html);
+        $this->assertStringContainsString('src="'.$proofUrl.'"', $html);
+        $this->assertStringNotContainsString('Belum ada bukti transfer yang diunggah.', $html);
+
+        $modal = Livewire::test(RegistrationsRelationManager::class, [
+            'ownerRecord' => $event,
+            'pageClass' => EditEvent::class,
+        ])->mountTableAction('view', $registration);
+        $schemaName = $modal->instance()->getMountedActionSchemaName();
+        $this->assertStringContainsString('src="'.$proofUrl.'"', $modal->instance()->{$schemaName}->toHtml());
     }
 }

@@ -8,6 +8,7 @@ use App\Filament\Resources\Registrations\Schemas\RegistrationForm;
 use App\Filament\Resources\Registrations\Tables\RegistrationsTable;
 use App\Models\Registration;
 use BackedEnum;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -68,6 +69,24 @@ class RegistrationResource extends Resource
                             ->placeholder('Belum dikirim'),
                         TextEntry::make('created_at')->label('Tanggal daftar')->dateTime('d M Y H:i')->suffix(' WIB'),
                         TextEntry::make('attendance.checked_in_at')->label('Waktu check-in')->dateTime('d M Y H:i')->suffix(' WIB')->placeholder('Belum hadir'),
+                    ]),
+                Section::make('Bukti transfer')
+                    ->columnSpanFull()
+                    ->schema([
+                        ImageEntry::make('transfer_proof_preview')
+                            ->label('Pratinjau bukti transfer')
+                            ->state(fn (Registration $record): ?string => filled($record->transfer_proof_path)
+                                ? route('exports.transfer-proof', $record) : null)
+                            ->imageHeight(320)
+                            ->extraImgAttributes(['style' => 'max-width: 100%; object-fit: contain;'])
+                            ->url(fn (Registration $record): ?string => filled($record->transfer_proof_path)
+                                ? route('exports.transfer-proof', $record) : null)
+                            ->openUrlInNewTab()
+                            ->visible(fn (Registration $record): bool => filled($record->transfer_proof_path)),
+                        TextEntry::make('transfer_proof_empty')
+                            ->hiddenLabel()
+                            ->state('Belum ada bukti transfer yang diunggah.')
+                            ->visible(fn (Registration $record): bool => blank($record->transfer_proof_path)),
                     ]),
             ]);
     }
