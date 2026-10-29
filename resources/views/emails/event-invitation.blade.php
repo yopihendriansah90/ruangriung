@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan {{ $registration->event->name }}</title>
+    <title>Undangan {{ $registration->event->namePlain() }}</title>
 </head>
 <body style="margin:0;background:#f4faff;color:#174d68;font-family:Arial,Helvetica,sans-serif;line-height:1.6">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4faff">
@@ -26,13 +26,13 @@
                         <td style="background:#174d68;border-radius:18px 18px 0 0;padding:30px 32px;color:#fff">
                             <div style="font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#65c6f1">Undangan event komunitas</div>
                             <h1 style="margin:12px 0 6px;font-size:30px;line-height:1.2;color:#fff">Hai, {{ $registration->name }}!</h1>
-                            <p style="margin:0;color:#d9effb;font-size:15px">Terima kasih sudah mendaftar. Kami menantikan kehadiranmu di event {{ $registration->event->name }}.</p>
+                            <p style="margin:0;color:#d9effb;font-size:15px">Terima kasih sudah mendaftar. Kami menantikan kehadiranmu di event {{ $registration->event->namePlain() }}.</p>
                         </td>
                     </tr>
                     <tr>
                         <td style="background:#fff;border:1px solid #d5eaf5;border-top:0;border-radius:0 0 18px 18px;padding:30px 32px">
                             <div style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#147eaf">Detail event</div>
-                            <h2 style="margin:8px 0 22px;font-size:24px;line-height:1.3;color:#174d68">{{ $registration->event->name }}</h2>
+                            <h2 style="margin:8px 0 22px;font-size:24px;line-height:1.3;color:#174d68">{{ $registration->event->namePlain() }}</h2>
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size:14px;color:#3f7183">
                                 <tr>
                                     <td width="92" style="padding:0 0 9px;font-weight:700;color:#174d68">Tanggal</td>

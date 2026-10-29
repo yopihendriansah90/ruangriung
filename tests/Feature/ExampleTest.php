@@ -58,9 +58,8 @@ class ExampleTest extends TestCase
         $this->get(route('events.index'))
             ->assertOk()
             ->assertSee('Closed History Event')
-            ->assertSee('Pendaftaran ditutup')
             ->assertSee('Ended Published Event')
-            ->assertSee('Sudah berlangsung');
+            ->assertSee('Sudah berakhir');
     }
 
     public function test_closed_event_detail_is_visible_but_registration_page_is_not_available(): void
@@ -78,7 +77,6 @@ class ExampleTest extends TestCase
 
         $this->get(route('events.show', $event))
             ->assertOk()
-            ->assertSee('Pendaftaran ditutup')
             ->assertSee('Pendaftaran untuk event ini sudah ditutup.');
 
         $this->get(route('events.register', $event))->assertNotFound();
@@ -148,6 +146,7 @@ class ExampleTest extends TestCase
             ->assertViewHas('upcomingEvents', fn ($events): bool => $events->contains($later) && ! $events->contains($nearest))
             ->assertViewHas('pastEvents', fn ($events): bool => $events->contains($past))
             ->assertSeeInOrder(['Event terdekat', 'Pertemuan Terdekat', 'Event yang akan datang', 'Pertemuan Berikutnya', 'Cerita dari Ruangriung', 'Cerita Sebelumnya'])
+            ->assertSee('aria-label="Lihat detail Pertemuan Terdekat"', false)
             ->assertDontSee($draft->name);
     }
 
@@ -155,7 +154,7 @@ class ExampleTest extends TestCase
     {
         $this->get(route('home'))
             ->assertOk()
-            ->assertSee('Pertemuan berikutnya sedang disiapkan')
+            ->assertSee('Belum ada event lain yang dijadwalkan')
             ->assertSee('Cerita pertemuan sebelumnya akan hadir di sini');
     }
 

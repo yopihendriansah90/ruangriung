@@ -61,7 +61,7 @@ class WhatsAppInvitationUrlService
 
         if ($event->whatsapp_group_url) {
             $lines[] = '';
-            $lines[] = 'Yuk, gabung grup WhatsApp event '.$event->namePlain().' untuk mendapatkan informasi dan pembaruan terbaru dari panitia!';
+            $lines[] = 'Yuk, gabung grup WhatsApp event '.$event->namePlain().' untuk mendapatkan informasi dan pembaruan terbaru dari kami!';
             $lines[] = 'Grup WhatsApp event: '.$event->whatsapp_group_url;
         }
 

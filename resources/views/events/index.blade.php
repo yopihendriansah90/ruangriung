@@ -95,27 +95,29 @@
                 </div>
                 <a href="{{ route('events.index', ['period' => 'upcoming']) }}" class="-m-2 inline-flex items-center gap-2 p-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">Lihat semua</a>
             </div>
-            <article class="mt-10 grid overflow-hidden rounded-[1.75rem] bg-white shadow-[0_24px_70px_rgba(16,75,104,0.13)] sm:grid-cols-[minmax(220px,0.8fr)_1fr]">
-                <div class="aspect-[4/5] bg-[#dfecee] sm:aspect-auto sm:min-h-[450px]">
-                    @if ($featuredPoster)
-                        <img src="{{ $featuredPoster }}" alt="Poster {{ $featuredEvent->name }}" class="h-full w-full object-cover">
-                    @else
-                        <div class="flex h-full flex-col items-center justify-center gap-3 px-8 text-center text-[#6f8d91]">
-                            <i class="fa-regular fa-image text-4xl" aria-hidden="true"></i>
-                            <span class="text-sm font-bold">Poster segera hadir</span>
-                        </div>
-                    @endif
-                </div>
-                <div class="flex flex-col justify-between p-6 sm:p-8">
-                    <div>
-                        <x-public.event-status-badge :event="$featuredEvent" />
-                        <h3 class="mt-5 text-2xl font-bold leading-tight text-[#104b68] sm:text-3xl">{!! $featuredEvent->titleHtml() !!}</h3>
-                        <x-public.event-meta :event="$featuredEvent" :show-capacity="true" class="mt-6" />
+            <article class="mt-10">
+                <a href="{{ route('events.show', $featuredEvent) }}" class="group grid overflow-hidden rounded-[1.75rem] bg-white shadow-[0_24px_70px_rgba(16,75,104,0.13)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(16,75,104,0.18)] sm:grid-cols-[minmax(220px,0.8fr)_1fr]" aria-label="Lihat detail {{ $featuredEvent->name }}">
+                    <div class="aspect-[4/5] overflow-hidden bg-[#dfecee] sm:aspect-auto sm:min-h-[450px]">
+                        @if ($featuredPoster)
+                            <img src="{{ $featuredPoster }}" alt="Poster {{ $featuredEvent->name }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]">
+                        @else
+                            <div class="flex h-full flex-col items-center justify-center gap-3 px-8 text-center text-[#6f8d91]">
+                                <i class="fa-regular fa-image text-4xl" aria-hidden="true"></i>
+                                <span class="text-sm font-bold">Poster segera hadir</span>
+                            </div>
+                        @endif
                     </div>
-                    <a href="{{ route('events.show', $featuredEvent) }}" class="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] hover:text-[#104b68]">
-                        Lihat detail event
-                    </a>
-                </div>
+                    <div class="flex flex-col justify-between p-6 sm:p-8">
+                        <div>
+                            <x-public.event-status-badge :event="$featuredEvent" />
+                            <h3 class="mt-5 text-2xl font-bold leading-tight text-[#104b68] sm:text-3xl">{!! $featuredEvent->titleHtml() !!}</h3>
+                            <x-public.event-meta :event="$featuredEvent" :show-capacity="true" class="mt-6" />
+                        </div>
+                        <span class="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#147eaf] transition group-hover:text-[#104b68]">
+                            Lihat detail event <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </a>
             </article>
         </section>
     @endif

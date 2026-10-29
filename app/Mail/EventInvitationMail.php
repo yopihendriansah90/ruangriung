@@ -36,7 +36,7 @@ class EventInvitationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Undangan '.$this->registration->event->name,
+            subject: 'Undangan '.$this->registration->event->namePlain(),
         );
     }
 
@@ -72,7 +72,7 @@ class EventInvitationMail extends Mailable
         return [
             Attachment::fromData(
                 fn (): string => $this->qrCode,
-                str($this->registration->name)->slug().'-'.str($this->registration->event->name)->slug().'.png',
+                str($this->registration->name)->slug().'-'.str($this->registration->event->namePlain())->slug().'.png',
             )->withMime('image/png'),
         ];
     }

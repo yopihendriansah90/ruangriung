@@ -193,6 +193,29 @@ class RegistrationFlowTest extends TestCase
         $this->assertSame($mail->logoCid, $message->getAttachments()[1]->getContentId());
     }
 
+    public function test_invitation_email_removes_break_tags_from_event_title(): void
+    {
+        $event = $this->event(['name' => 'Pertemuan<br>Ruang Riung']);
+        $registration = Registration::create([
+            'event_id' => $event->id,
+            'registration_code' => 'MHC-PLAINTITLE01',
+            'name' => 'Dina',
+            'email' => 'dina@example.com',
+            'phone' => '0812',
+            'gender' => 'female',
+            'data_consent_at' => now(),
+        ]);
+
+        $mail = new EventInvitationMail($registration->load('event'));
+        $html = $mail->render();
+
+        $this->assertSame('Undangan Pertemuan Ruang Riung', $mail->envelope()->subject);
+        $this->assertStringContainsString('<title>Undangan Pertemuan Ruang Riung</title>', $html);
+        $this->assertStringContainsString('event Pertemuan Ruang Riung.', $html);
+        $this->assertStringContainsString('>Pertemuan Ruang Riung</h2>', $html);
+        $this->assertStringNotContainsString('Pertemuan&lt;br&gt;Ruang Riung', $html);
+    }
+
     private function event(array $overrides = []): Event
     {
         return Event::create(array_merge([

@@ -71,7 +71,8 @@ class ExportTest extends TestCase
         ]);
         $message = rawurldecode(app(WhatsAppInvitationUrlService::class)->make($registration));
 
-        $this->assertStringContainsString('Yuk, gabung grup WhatsApp event Pertemuan Ruang Riung', $message);
+        $this->assertStringContainsString('Yuk, gabung grup WhatsApp event Pertemuan Ruang Riung untuk mendapatkan informasi dan pembaruan terbaru dari kami!', $message);
+        $this->assertStringNotContainsString('pembaruan terbaru dari panitia', $message);
         $this->assertStringContainsString('Grup WhatsApp event: https://chat.whatsapp.com/event-terkait', $message);
         $this->assertStringNotContainsString('<br>', $message);
     }
