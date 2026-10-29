@@ -49,20 +49,7 @@
                         @endunless
                     </div>
                     <h1 class="mt-6 max-w-3xl text-2xl font-bold leading-[1.15] tracking-[-0.03em] text-[#104b68] sm:text-3xl lg:text-4xl">{!! $titleHtml !!}</h1>
-                    <x-public.event-meta :event="$event" :show-capacity="true" :show-address="true" class="mt-8 py-7" />
-
-                </div>
-
-                <div class="mt-8">
-                    @if ($isRegistrationOpen)
-                        <a href="{{ route('events.register', $event) }}" class="btn-primary w-full sm:w-auto">Daftar sekarang</a>
-                    @else
-                        <div class="border-l-4 {{ $isFull ? 'border-red-400 bg-red-50 text-red-700' : 'border-amber-400 bg-amber-50 text-amber-800' }} px-5 py-4 text-sm font-semibold" role="status">{{ $unavailableMessage }}</div>
-                    @endif
-
-                    @if ($event->google_maps_url)
-                        <a href="{{ $event->google_maps_url }}" target="_blank" rel="noopener" class="mt-3 inline-flex min-h-11 items-center gap-2 px-1 text-sm font-bold text-[#147eaf] hover:text-[#104b68]"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Buka Google Maps <i class="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true"></i></a>
-                    @endif
+                    <x-public.event-meta :event="$event" :show-capacity="true" :show-address="true" :show-map="true" class="mt-8 py-7" />
                 </div>
             </div>
         </article>
@@ -74,6 +61,14 @@
         <p class="section-eyebrow">Tentang event</p>
         <h2 class="mt-3 text-3xl font-bold tracking-[-0.025em] text-[#104b68]">Cerita di balik pertemuan ini</h2>
         <div class="event-description mt-8">{!! $descriptionHtml !!}</div>
+
+        <div class="mt-10 border-t border-[#d7e1df] pt-8">
+            @if ($isRegistrationOpen)
+                <a href="{{ route('events.register', $event) }}" class="btn-primary w-full sm:w-auto">Daftar sekarang</a>
+            @else
+                <div class="border-l-4 {{ $isFull ? 'border-red-400 bg-red-50 text-red-700' : 'border-amber-400 bg-amber-50 text-amber-800' }} px-5 py-4 text-sm font-semibold" role="status">{{ $unavailableMessage }}</div>
+            @endif
+        </div>
     </article>
 
     <aside class="space-y-8 lg:sticky lg:top-28 lg:self-start">
@@ -129,15 +124,7 @@
     </section>
 @endif
 
-@if ($isRegistrationOpen)
-    {{-- Spacer agar footer tidak tertutup CTA bar tetap di mobile --}}
-    <div class="h-[76px] lg:hidden" aria-hidden="true"></div>
-    <div class="fixed inset-x-0 bottom-0 z-40 border-t border-[#bfd8df] bg-[#f7f5ef]/95 p-3 shadow-[0_-10px_30px_rgba(16,75,104,0.12)] backdrop-blur lg:hidden">
-        <a href="{{ route('events.register', $event) }}" class="btn-primary w-full">Daftar sekarang</a>
-    </div>
-@endif
-
-<x-public.whatsapp-floating-button :event="$event" :mobile-cta="$isRegistrationOpen" />
+<x-public.whatsapp-floating-button :event="$event" />
 
 @if ($poster)
     <dialog id="poster-viewer" class="m-auto max-h-[94vh] max-w-[min(94vw,1100px)] overflow-auto rounded-2xl bg-[#103f56] p-2 text-white shadow-2xl backdrop:bg-[#103f56]/80">

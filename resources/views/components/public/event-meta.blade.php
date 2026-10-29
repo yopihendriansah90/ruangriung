@@ -1,4 +1,4 @@
-@props(['event', 'showCapacity' => false, 'showAddress' => false])
+@props(['event', 'showCapacity' => false, 'showAddress' => false, 'showMap' => false])
 
 <div {{ $attributes->class('space-y-3 text-sm leading-6 text-[#496d78]') }}>
     <p class="flex items-start gap-3">
@@ -23,6 +23,15 @@
                     Kapasitas tidak dibatasi
                 @endif
             </span>
+        </p>
+    @endif
+    @if ($showMap && filled($event->google_maps_url))
+        <p class="flex items-start gap-3">
+            <i class="fa-solid fa-map-location-dot mt-1 w-4 shrink-0 text-center text-[#147eaf]" aria-hidden="true"></i>
+            <a href="{{ $event->google_maps_url }}" target="_blank" rel="noopener" class="inline-flex min-h-6 items-center gap-2 font-bold text-[#147eaf] hover:text-[#104b68] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#147eaf]">
+                Buka Google Maps
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true"></i>
+            </a>
         </p>
     @endif
 </div>

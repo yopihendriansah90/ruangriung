@@ -218,6 +218,28 @@ class ExampleTest extends TestCase
             ->assertDontSee($draft->name);
     }
 
+    public function test_event_detail_places_registration_after_description_and_map_after_capacity(): void
+    {
+        $event = $this->event([
+            'name' => 'Event Dengan Susunan Detail',
+            'slug' => 'event-dengan-susunan-detail',
+            'description' => 'Baca penjelasan event ini sebelum mendaftar.',
+            'google_maps_url' => 'https://maps.google.com/?q=Ruang+Riung',
+            'capacity_type' => Event::CAPACITY_LIMITED,
+            'capacity' => 20,
+        ]);
+
+        $this->get(route('events.show', $event))
+            ->assertOk()
+            ->assertSeeInOrder([
+                'Tersisa 20 dari 20 peserta',
+                'Buka Google Maps',
+                'Baca penjelasan event ini sebelum mendaftar.',
+                'Daftar sekarang',
+            ])
+            ->assertSee('href="'.route('events.register', $event).'"', false);
+    }
+
     public function test_filtered_event_pagination_keeps_search_and_period_query(): void
     {
         foreach (range(1, 10) as $index) {
