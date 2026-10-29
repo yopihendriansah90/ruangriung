@@ -240,6 +240,25 @@ class ExampleTest extends TestCase
             ->assertSee('href="'.route('events.register', $event).'"', false);
     }
 
+    public function test_event_page_titles_remove_break_tags_from_event_name(): void
+    {
+        $event = $this->event([
+            'name' => 'Pertemuan<br>Ruang Riung',
+            'slug' => 'pertemuan-ruang-riung-title',
+        ]);
+
+        $this->get(route('events.show', $event))
+            ->assertOk()
+            ->assertSee('<title>Pertemuan Ruang Riung — Ruang Riung</title>', false)
+            ->assertSee('<meta property="og:title" content="Pertemuan Ruang Riung">', false)
+            ->assertDontSee('<title>Pertemuan&lt;br&gt;Ruang Riung', false);
+
+        $this->get(route('events.register', $event))
+            ->assertOk()
+            ->assertSee('<title>Daftar Pertemuan Ruang Riung — Ruang Riung</title>', false)
+            ->assertDontSee('<title>Daftar Pertemuan&lt;br&gt;Ruang Riung', false);
+    }
+
     public function test_filtered_event_pagination_keeps_search_and_period_query(): void
     {
         foreach (range(1, 10) as $index) {

@@ -137,14 +137,15 @@ class EventController extends Controller
         }
         $plainDescription = Str::of(strip_tags($event->description ?? ''))->squish()->limit(160)->toString();
         $eventDate = $event->event_date ? $event->event_date->translatedFormat('d F Y') : null;
+        $eventName = $event->namePlain();
 
         return view('events.show', [
             'event' => $event,
-            'title' => $event->name.' — Ruang Riung',
-            'metaDescription' => $plainDescription !== '' ? $plainDescription : $event->name.($eventDate ? ' — '.$eventDate : ''),
+            'title' => $eventName.' — Ruang Riung',
+            'metaDescription' => $plainDescription !== '' ? $plainDescription : $eventName.($eventDate ? ' — '.$eventDate : ''),
             'ogType' => 'article',
-            'ogTitle' => $event->name,
-            'ogDescription' => $plainDescription !== '' ? $plainDescription : $event->name.($eventDate ? ' — '.$eventDate : ''),
+            'ogTitle' => $eventName,
+            'ogDescription' => $plainDescription !== '' ? $plainDescription : $eventName.($eventDate ? ' — '.$eventDate : ''),
             'ogImage' => $posterUrl,
             'ogImageWidth' => $ogImageWidth,
             'ogImageHeight' => $ogImageHeight,
@@ -165,7 +166,7 @@ class EventController extends Controller
         return view('events.register', [
             'event' => $event,
             'isFull' => $isFull,
-            'title' => 'Daftar '.$event->name.' — Ruang Riung',
+            'title' => 'Daftar '.$event->namePlain().' — Ruang Riung',
         ]);
     }
 
