@@ -5,6 +5,9 @@ namespace App\Filament\Resources\Attendances\Tables;
 use App\Models\Attendance;
 use App\Models\Event;
 use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -63,6 +66,26 @@ class AttendancesTable
                     ->icon('heroicon-o-qr-code')
                     ->url('/check-in')
                     ->openUrlInNewTab(),
+            ])
+            ->recordActions([
+                DeleteAction::make()
+                    ->label('Hapus kehadiran')
+                    ->requiresConfirmation()
+                    ->modalHeading('Hapus data kehadiran')
+                    ->modalDescription(fn (Attendance $record): string => "Yakin ingin menghapus data kehadiran {$record->registration->name}? Data registrasi peserta tetap tersimpan dan peserta dapat check-in ulang. Tindakan ini tidak bisa dibatalkan.")
+                    ->modalSubmitActionLabel('Ya, hapus')
+                    ->successNotificationTitle('Data kehadiran berhasil dihapus.'),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
+                        ->label('Hapus yang dipilih')
+                        ->requiresConfirmation()
+                        ->modalHeading('Hapus data kehadiran terpilih')
+                        ->modalDescription('Semua data kehadiran yang dipilih akan dihapus permanen. Data registrasi peserta tetap tersimpan dan peserta dapat check-in ulang. Tindakan ini tidak bisa dibatalkan.')
+                        ->modalSubmitActionLabel('Ya, hapus')
+                        ->successNotificationTitle('Data kehadiran terpilih berhasil dihapus.'),
+                ]),
             ])
             ->defaultSort('checked_in_at', 'desc');
     }
