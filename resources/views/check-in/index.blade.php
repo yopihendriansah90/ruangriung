@@ -115,6 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let isScanning = false;
     let isSubmitting = false;
     let isProcessingScan = false;
+    let activeAlert = null;
+    let isScannerPaused = false;
     let cameras = [];
     let activeCameraIndex = 0;
 
@@ -140,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         status.classList.add('hidden');
 
         if (window.Swal) {
-            window.Swal.fire({
+            fireScannerAlert({
                 confirmButtonText: 'Mengerti',
                 confirmButtonColor: '#147eaf',
                 background: '#ffffff',
@@ -159,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         status.classList.add('hidden');
 
         if (window.Swal) {
-            window.Swal.fire({
+            fireScannerAlert({
                 title,
                 text,
                 allowOutsideClick: false,
@@ -217,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try { await scanner.stop(); } catch (error) { /* Kamera mungkin sudah berhenti */ }
         try { await scanner.clear(); } catch (error) { /* Abaikan */ }
         isScanning = false;
+        isScannerPaused = false;
         isProcessingScan = false;
         cameraStatus.textContent = 'Kamera dihentikan.';
         updateControls();
@@ -224,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const closeResultAlert = () => {
-        if (window.Swal && window.Swal.isVisible()) window.Swal.close();
+        if (!isSubmitting && window.Swal && window.Swal.isVisible() && !window.Swal.isLoading()) window.Swal.close();
     };
 
     const showError = (message, title = 'Check-in gagal') => {
@@ -237,31 +240,47 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const pauseScannerForResult = () => {
-        // Tahan 1 frame sukses/gagal tanpa mematikan kamera (pause),
-        // jatuh ke stop hanya bila API pause tidak tersedia.
-        if (!scanner || !isScanning) return Promise.resolve(false);
+        if (!scanner || !isScanning || isScannerPaused) return;
         try {
             if (typeof scanner.pause === 'function') {
                 scanner.pause(true);
-                return Promise.resolve(true);
+                isScannerPaused = true;
             }
-        } catch (error) { /* lanjut ke stop */ }
-        return Promise.resolve(false);
+        } catch (error) { /* Callback scan tetap diblokir oleh status popup. */ }
     };
 
-    const resumeScannerAfterResult = async (wasPaused) => {
-        if (!scanner || !isScanning) return;
-        if (wasPaused) {
+    const resumeScannerAfterResult = () => {
+        if (!scanner || !isScanning || activeAlert || isSubmitting || isProcessingScan) return;
+        if (isScannerPaused) {
             try {
-                if (typeof scanner.resume === 'function') await scanner.resume();
-            } catch (error) { /* Abaikan, scanner tetap jalan */ }
+                scanner.resume();
+                isScannerPaused = false;
+            } catch (error) {
+                cameraStatus.textContent = 'Scanner tidak dapat dilanjutkan. Hentikan lalu mulai kamera kembali.';
+                return;
+            }
         }
-        isProcessingScan = false;
         cameraStatus.textContent = 'Kamera aktif. Arahkan ke QR Code berikutnya.';
     };
 
+    const fireScannerAlert = (options) => {
+        const alert = {};
+        // Popup progress diganti popup hasil sebelum popup sebelumnya dihancurkan.
+        activeAlert = alert;
+        pauseScannerForResult();
+        cameraStatus.textContent = 'Scanner dijeda sampai pesan ditutup.';
+        return window.Swal.fire({
+            ...options,
+            didDestroy: () => {
+                if (activeAlert !== alert) return;
+                activeAlert = null;
+                resumeScannerAfterResult();
+            },
+        });
+    };
+
     const submitCode = async (code, method = 'qr_code') => {
-        if (isSubmitting) return;
+        if (isSubmitting || activeAlert || window.Swal?.isVisible()) return;
         isSubmitting = true;
         const normalizedCode = String(code ?? '').trim();
 
@@ -288,23 +307,21 @@ document.addEventListener('DOMContentLoaded', () => {
             showError(error.message ?? 'Check-in gagal.');
         } finally {
             isSubmitting = false;
+            resumeScannerAfterResult();
         }
-        if (method === 'qr_code') {
-            cameraStatus.textContent = 'Siap untuk scan berikutnya. Kamera tetap aktif.';
-            return;
-        }
-        cameraStatus.textContent = 'Check-in berhasil. Siap untuk scan berikutnya.';
-        isSubmitting = false;
     };
 
     const handleScannedCode = async (text) => {
-        if (isProcessingScan || isSubmitting) return;
+        if (!isScanning || isProcessingScan || isSubmitting || activeAlert || window.Swal?.isVisible()) return;
         isProcessingScan = true;
-        const wasPaused = await pauseScannerForResult();
+        pauseScannerForResult();
         cameraStatus.textContent = 'QR terdeteksi. Memproses...';
-        await submitCode(text);
-        // Kamera tetap standby untuk QR berikutnya sampai admin menekan Hentikan.
-        await resumeScannerAfterResult(wasPaused);
+        try {
+            await submitCode(text);
+        } finally {
+            isProcessingScan = false;
+            resumeScannerAfterResult();
+        }
     };
 
     const loadCameras = async () => {
@@ -353,9 +370,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 await scanner.start({facingMode: 'environment'}, scanConfig, onScanSuccess, () => {});
             }
             isScanning = true;
+            isScannerPaused = false;
             isProcessingScan = false;
             const activeLabel = cameras[activeCameraIndex]?.label || 'kamera belakang';
             cameraStatus.textContent = `Kamera aktif (${activeLabel}). Arahkan ke QR Code peserta.`;
+            if (activeAlert || isSubmitting) {
+                pauseScannerForResult();
+                cameraStatus.textContent = 'Scanner dijeda sampai pesan ditutup.';
+            }
             updateControls();
             updateCameraLabel();
         } catch (error) {
@@ -371,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const switchCamera = async () => {
-        if (!isScanning || cameras.length < 2 || isProcessingScan) return;
+        if (!isScanning || cameras.length < 2 || isProcessingScan || isSubmitting || activeAlert) return;
         const nextIndex = (activeCameraIndex + 1) % cameras.length;
         cameraStatus.textContent = 'Mengganti kamera...';
         try {
