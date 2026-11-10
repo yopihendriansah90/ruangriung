@@ -86,6 +86,12 @@ class Event extends Model implements HasMedia
         return $this->hasMany(Registration::class);
     }
 
+    /** Link tambahan milik event (label + url), urut sesuai sort_order. */
+    public function links(): HasMany
+    {
+        return $this->hasMany(EventLink::class)->orderBy('sort_order')->orderBy('id');
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('event-posters')->singleFile();

@@ -4,6 +4,8 @@ namespace App\Filament\Resources\Events\Schemas;
 
 use App\Models\Event;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -118,6 +120,30 @@ class EventForm
                     ->image()
                     ->maxSize(600)
                     ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->columnSpanFull(),
+                Repeater::make('links')
+                    ->label('Link tambahan')
+                    ->relationship('links')
+                    ->orderColumn('sort_order')
+                    ->helperText('Tampil di halaman detail event, di bawah link Google Maps. Label inilah yang diklik pengunjung untuk membuka URL-nya.')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('label')
+                                    ->label('Label link')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->placeholder('Contoh: Form Panduan Peserta'),
+                                TextInput::make('url')
+                                    ->label('URL')
+                                    ->url()
+                                    ->required()
+                                    ->maxLength(500)
+                                    ->placeholder('https://...'),
+                            ]),
+                    ])
+                    ->defaultItems(0)
+                    ->addActionLabel('Tambah link')
                     ->columnSpanFull(),
             ]);
     }

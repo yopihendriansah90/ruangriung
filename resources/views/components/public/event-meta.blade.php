@@ -25,13 +25,24 @@
             </span>
         </p>
     @endif
-    @if ($showMap && filled($event->google_maps_url))
-        <p class="flex items-start gap-3">
-            <i class="fa-solid fa-map-location-dot mt-1 w-4 shrink-0 text-center text-[#147eaf]" aria-hidden="true"></i>
-            <a href="{{ $event->google_maps_url }}" target="_blank" rel="noopener" class="inline-flex min-h-6 items-center gap-2 font-bold text-[#147eaf] hover:text-[#104b68] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#147eaf]">
-                Buka Google Maps
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true"></i>
-            </a>
-        </p>
+    @if ($showMap && (filled($event->google_maps_url) || $event->links->isNotEmpty()))
+        @if (filled($event->google_maps_url))
+            <p class="flex items-start gap-3">
+                <i class="fa-solid fa-map-location-dot mt-1 w-4 shrink-0 text-center text-[#147eaf]" aria-hidden="true"></i>
+                <a href="{{ $event->google_maps_url }}" target="_blank" rel="noopener" class="inline-flex min-h-6 items-center gap-2 font-bold text-[#147eaf] hover:text-[#104b68] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#147eaf]">
+                    Buka Google Maps
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true"></i>
+                </a>
+            </p>
+        @endif
+        @foreach ($event->links as $link)
+            <p class="flex items-start gap-3">
+                <i class="fa-solid fa-link mt-1 w-4 shrink-0 text-center text-[#147eaf]" aria-hidden="true"></i>
+                <a href="{{ $link->url }}" target="_blank" rel="noopener" class="inline-flex min-h-6 items-center gap-2 font-bold text-[#147eaf] hover:text-[#104b68] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#147eaf]">
+                    {{ $link->label }}
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true"></i>
+                </a>
+            </p>
+        @endforeach
     @endif
 </div>

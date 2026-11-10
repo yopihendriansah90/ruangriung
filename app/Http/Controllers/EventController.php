@@ -105,6 +105,7 @@ class EventController extends Controller
         $event->loadCount([
             'registrations as registered_registrations_count' => fn (Builder $query) => $query->where('status', Registration::STATUS_REGISTERED),
         ]);
+        $event->load('links');
 
         $recommendedEvents = $this->publicEventsQuery()
             ->where('status', Event::STATUS_PUBLISHED)
