@@ -29,6 +29,13 @@ class RegistrationsTable
                 TextColumn::make('event.name')->label('Event')->searchable()->sortable()->wrap(),
                 TextColumn::make('email')->searchable()->toggleable(),
                 TextColumn::make('phone')->label('WhatsApp')->toggleable(),
+                TextColumn::make('instagram_username')
+                    ->label('Instagram/Sosmed')
+                    ->toggleable()
+                    ->searchable()
+                    ->formatStateUsing(fn (Registration $record): ?string => filled($record->instagram_username) ? '@'.$record->instagramUsername() : null)
+                    ->color('info')
+                    ->action(EventRegistrationsTable::sosmedPopupAction()),
                 TextColumn::make('gender')->label('Jenis kelamin')->formatStateUsing(fn (?string $state): string => $state === 'male' ? 'Laki-laki' : 'Perempuan')->toggleable(),
                 TextColumn::make('status')->label('Pendaftaran')->badge()->formatStateUsing(fn (?string $state): string => $state === Registration::STATUS_REGISTERED ? 'Terdaftar' : 'Dibatalkan'),
                 TextColumn::make('email_invitation_status')

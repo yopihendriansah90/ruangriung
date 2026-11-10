@@ -17,6 +17,11 @@ class RegistrationForm
                 TextInput::make('name')->label('Nama lengkap')->required(),
                 TextInput::make('email')->email()->required(),
                 TextInput::make('phone')->label('Nomor WhatsApp')->required(),
+                TextInput::make('instagram_username')
+                    ->label('Username Instagram/Sosmed')
+                    ->required()
+                    ->regex('/^[A-Za-z0-9._]+$/')
+                    ->helperText('Ketik tanpa tanda @. Hanya huruf, angka, titik, dan underscore.'),
                 Select::make('gender')->label('Jenis kelamin')->options(['male' => 'Laki-laki', 'female' => 'Perempuan'])->required(),
                 TextInput::make('city')->label('Kota/domisi'),
                 TextInput::make('organization')->label('Asal komunitas/instansi'),

@@ -44,6 +44,13 @@ class RegistrationResource extends Resource
                         TextEntry::make('gender')->label('Jenis kelamin')->formatStateUsing(fn (?string $state): string => $state === 'male' ? 'Laki-laki' : 'Perempuan'),
                         TextEntry::make('email')->label('Email'),
                         TextEntry::make('phone')->label('WhatsApp'),
+                        TextEntry::make('instagram_username')
+                            ->label('Username Instagram/Sosmed')
+                            ->placeholder('—')
+                            ->formatStateUsing(fn (Registration $record): ?string => filled($record->instagram_username) ? '@'.$record->instagramUsername() : null)
+                            ->url(fn (Registration $record): ?string => $record->instagramUrl())
+                            ->openUrlInNewTab()
+                            ->copyable(),
                         TextEntry::make('city')->label('Kota/domisili')->placeholder('—'),
                         TextEntry::make('organization')->label('Asal komunitas/instansi')->placeholder('—'),
                     ]),

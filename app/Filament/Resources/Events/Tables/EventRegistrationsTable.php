@@ -17,6 +17,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class EventRegistrationsTable
 {
@@ -30,6 +31,13 @@ class EventRegistrationsTable
                 TextColumn::make('name')->label('Peserta')->searchable()->sortable()->weight('semibold'),
                 TextColumn::make('email')->searchable()->toggleable(),
                 TextColumn::make('phone')->label('WhatsApp')->toggleable(),
+                TextColumn::make('instagram_username')
+                    ->label('Instagram/Sosmed')
+                    ->toggleable()
+                    ->searchable()
+                    ->formatStateUsing(fn (Registration $record): ?string => filled($record->instagram_username) ? '@'.$record->instagramUsername() : null)
+                    ->color('info')
+                    ->action(self::sosmedPopupAction()),
                 TextColumn::make('gender')->label('Jenis kelamin')->formatStateUsing(fn (?string $state): string => $state === 'male' ? 'Laki-laki' : 'Perempuan')->toggleable(),
                 TextColumn::make('status')->label('Pendaftaran')->badge()->formatStateUsing(fn (?string $state): string => $state === Registration::STATUS_REGISTERED ? 'Terdaftar' : 'Dibatalkan'),
                 TextColumn::make('email_invitation_status')
@@ -126,5 +134,29 @@ class EventRegistrationsTable
             ->modalDescription(fn (Registration $record): string => "Yakin ingin menghapus data peserta {$record->name}? Data check-in peserta ini juga ikut terhapus. Tindakan ini tidak bisa dibatalkan.")
             ->modalSubmitActionLabel('Ya, hapus')
             ->successNotification(fn (Registration $record): Notification => Notification::make()->title("Peserta {$record->name} berhasil dihapus.")->success());
+    }
+
+    /**
+     * Popup pilihan sosmed berdasarkan username peserta — tombol tiap platform,
+     * lengkap dengan helper URL di dalam isi modal. Dipakai kolom Instagram/Sosmed.
+     */
+    public static function sosmedPopupAction(): Action
+    {
+        return Action::make('openSosmed')
+            ->label('Buka sosmed')
+            ->modalHeading(fn (Registration $record): string => 'Buka sosmed @'.$record->instagramUsername())
+            ->modalDescription('Pilih sosmed yang ingin dibuka berdasarkan username peserta.')
+            ->modalContent(fn (Registration $record) => view('filament.registration-sosmed-links', [
+                'username' => $record->instagramUsername(),
+                'links' => $record->sosmedLinks(),
+            ]))
+            ->modalFooterActions(fn (Registration $record): array => collect($record->sosmedLinks())
+                ->map(fn (string $url, string $platform): Action => Action::make('open_'.Str::slug($platform))
+                    ->label($platform)
+                    ->color('gray')
+                    ->url($url)
+                    ->openUrlInNewTab())
+                ->all())
+            ->modalSubmitAction(false);
     }
 }

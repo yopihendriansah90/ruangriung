@@ -18,6 +18,7 @@ class RegistrationController extends Controller
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'email' => ['required', 'email:rfc', 'max:255'],
             'phone' => ['required', 'string', 'min:8', 'max:30'],
+            'instagram_username' => ['required', 'string', 'max:30', 'regex:/^@?[A-Za-z0-9._]+$/'],
             'gender' => ['required', Rule::in(['male', 'female'])],
             'city' => ['nullable', 'string', 'max:100'],
             'organization' => ['nullable', 'string', 'max:255'],
@@ -33,9 +34,12 @@ class RegistrationController extends Controller
             'transfer_proof.mimes' => 'Bukti transfer harus berupa gambar JPG, JPEG, PNG, atau WebP.',
             'transfer_proof.max' => 'Ukuran bukti transfer maksimal 2 MB.',
             'transfer_proof.uploaded' => 'Bukti transfer gagal diunggah. Pastikan ukuran maksimal 2 MB.',
+            'instagram_username.required' => 'Username Instagram wajib diisi.',
+            'instagram_username.regex' => 'Username Instagram hanya boleh berisi huruf, angka, titik, dan underscore.',
         ]);
 
         unset($validated['data_consent']);
+        $validated['instagram_username'] = ltrim($validated['instagram_username'], '@');
 
         $path = $validated['transfer_proof']->store('transfer-proofs', 'local');
         abort_unless($path, 500, 'Bukti transfer gagal disimpan. Silakan coba lagi.');

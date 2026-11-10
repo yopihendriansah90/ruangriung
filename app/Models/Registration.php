@@ -27,6 +27,7 @@ class Registration extends Model
         'name',
         'email',
         'phone',
+        'instagram_username',
         'gender',
         'city',
         'organization',
@@ -57,6 +58,40 @@ class Registration extends Model
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
+    }
+
+    /** Username Instagram tanpa prefiks @ — data bisa diisi dengan atau tanpa "@". */
+    public function instagramUsername(): string
+    {
+        return ltrim((string) $this->instagram_username, '@');
+    }
+
+    public function instagramUrl(): ?string
+    {
+        $username = $this->instagramUsername();
+
+        return $username !== '' ? 'https://instagram.com/'.$username : null;
+    }
+
+    /**
+     * Daftar platform sosmed → URL profil berdasarkan username di kolom ini.
+     * Dipakai admin untuk memilih sosmed mana yang dibuka saat check-in/absensi.
+     */
+    public function sosmedLinks(): array
+    {
+        $username = $this->instagramUsername();
+
+        if ($username === '') {
+            return [];
+        }
+
+        return [
+            'Instagram' => 'https://instagram.com/'.$username,
+            'TikTok' => 'https://tiktok.com/@'.$username,
+            'X (Twitter)' => 'https://x.com/'.$username,
+            'Facebook' => 'https://facebook.com/'.$username,
+            'YouTube' => 'https://youtube.com/@'.$username,
+        ];
     }
 
     public function attendance(): HasOne

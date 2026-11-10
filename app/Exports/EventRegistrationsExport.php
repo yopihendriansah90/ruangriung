@@ -21,7 +21,7 @@ class EventRegistrationsExport implements FromQuery, ShouldAutoSize, WithHeading
 
     public function headings(): array
     {
-        return ['No', 'Nama', 'Email', 'WhatsApp', 'Jenis Kelamin', 'Kota', 'Organisasi', 'Status Undangan', 'Kode Registrasi', 'Terdaftar Pada'];
+        return ['No', 'Nama', 'Email', 'WhatsApp', 'Username Instagram/Sosmed', 'Jenis Kelamin', 'Kota', 'Organisasi', 'Status Undangan', 'Kode Registrasi', 'Terdaftar Pada'];
     }
 
     public function map($registration): array
@@ -31,6 +31,7 @@ class EventRegistrationsExport implements FromQuery, ShouldAutoSize, WithHeading
             $registration->name,
             $registration->email,
             $registration->phone,
+            $registration->instagram_username ? '@'.$registration->instagramUsername() : null,
             $registration->gender === 'male' ? 'Laki-laki' : 'Perempuan',
             $registration->city,
             $registration->organization,

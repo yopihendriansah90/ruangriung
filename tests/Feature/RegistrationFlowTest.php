@@ -36,6 +36,7 @@ class RegistrationFlowTest extends TestCase
             'name' => 'Budi MHC',
             'email' => 'BUDI@example.com',
             'phone' => '08123456789',
+            'instagram_username' => 'budi_mhc',
             'gender' => 'male',
             'data_consent' => '1', 'transfer_proof' => UploadedFile::fake()->image('proof.jpg'),
         ]);
@@ -85,7 +86,7 @@ class RegistrationFlowTest extends TestCase
         $event = $this->event();
         $payload = [
             'name' => 'Sari', 'email' => 'sari@example.com', 'phone' => '08123456789',
-            'gender' => 'female', 'data_consent' => '1',
+            'instagram_username' => 'sari_writes', 'gender' => 'female', 'data_consent' => '1',
         ];
         $this->post(route('registrations.store', $event), [
             ...$payload, 'transfer_proof' => UploadedFile::fake()->image('proof.png')->size(2048),
@@ -105,6 +106,7 @@ class RegistrationFlowTest extends TestCase
             'name' => 'Sari',
             'email' => 'sari@example.com',
             'phone' => '08123456789',
+            'instagram_username' => 'sari_writes',
             'gender' => 'female',
             'data_consent' => '1', 'transfer_proof' => UploadedFile::fake()->image('proof.jpg'),
         ];
@@ -124,7 +126,7 @@ class RegistrationFlowTest extends TestCase
         $event = $this->event(['capacity_type' => Event::CAPACITY_LIMITED, 'capacity' => 1]);
         $payload = [
             'name' => 'Peserta Pertama', 'email' => 'first@example.com', 'phone' => '08123456789',
-            'gender' => 'male', 'data_consent' => '1', 'transfer_proof' => UploadedFile::fake()->image('proof.jpg'),
+            'instagram_username' => 'peserta_satu', 'gender' => 'male', 'data_consent' => '1', 'transfer_proof' => UploadedFile::fake()->image('proof.jpg'),
         ];
         $this->post(route('registrations.store', $event), $payload)->assertRedirect();
 
@@ -214,6 +216,46 @@ class RegistrationFlowTest extends TestCase
         $this->assertStringContainsString('event Pertemuan Ruang Riung.', $html);
         $this->assertStringContainsString('>Pertemuan Ruang Riung</h2>', $html);
         $this->assertStringNotContainsString('Pertemuan&lt;br&gt;Ruang Riung', $html);
+    }
+
+    public function test_instagram_username_required_validated_and_stored_without_at_prefix(): void
+    {
+        $event = $this->event();
+        $payload = [
+            'name' => 'Citra', 'email' => 'citra@example.com', 'phone' => '081234567890',
+            'gender' => 'female', 'data_consent' => '1',
+            'transfer_proof' => UploadedFile::fake()->image('proof.jpg'),
+        ];
+
+        $this->post(route('registrations.store', $event), $payload)
+            ->assertSessionHasErrors('instagram_username');
+
+        $this->post(route('registrations.store', $event), [
+            ...$payload, 'instagram_username' => 'citra invalid!',
+        ])->assertSessionHasErrors('instagram_username');
+
+        $this->post(route('registrations.store', $event), [
+            ...$payload, 'instagram_username' => '@citra.digital',
+        ])->assertRedirect();
+
+        $registration = Registration::where('email', 'citra@example.com')->firstOrFail();
+        $this->assertSame('citra.digital', $registration->instagram_username);
+        $this->assertSame('https://instagram.com/citra.digital', $registration->instagramUrl());
+        $links = $registration->sosmedLinks();
+        $this->assertSame([
+            'Instagram' => 'https://instagram.com/citra.digital',
+            'TikTok' => 'https://tiktok.com/@citra.digital',
+            'X (Twitter)' => 'https://x.com/citra.digital',
+            'Facebook' => 'https://facebook.com/citra.digital',
+            'YouTube' => 'https://youtube.com/@citra.digital',
+        ], $links);
+
+        $modalHtml = view('filament.registration-sosmed-links', [
+            'username' => $registration->instagramUsername(),
+            'links' => $links,
+        ])->render();
+        $this->assertStringNotContainsString('{{', $modalHtml);
+        $this->assertStringContainsString('@citra.digital', $modalHtml);
     }
 
     private function event(array $overrides = []): Event

@@ -78,6 +78,12 @@
                         @error('phone')<p class="field-error" id="phone-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
                     </div>
                     <div>
+                        <label class="field-label" for="instagram_username">Username Instagram/Sosmed <span class="text-red-600">*</span></label>
+                        <input class="field-input" id="instagram_username" name="instagram_username" type="text" inputmode="text" autocapitalize="none" autocorrect="off" spellcheck="false" value="{{ old('instagram_username') }}" placeholder="namapengguna" required aria-describedby="instagram-username-error">
+                        <p class="mt-1.5 text-sm text-[#5d7d86]">Ketik tanpa tanda @, hanya huruf, angka, titik, atau underscore. Boleh username Instagram, TikTok, X, atau sosmed lain.</p>
+                        @error('instagram_username')<p class="field-error" id="instagram-username-error"><i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>{{ $message }}</p>@enderror
+                    </div>
+                    <div>
                         <label class="field-label" for="gender">Jenis Kelamin <span class="text-red-600">*</span></label>
                         <select class="field-input" id="gender" name="gender" required aria-describedby="gender-error">
                             <option value="">Pilih jenis kelamin</option>
